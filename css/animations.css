@@ -67,11 +67,13 @@
 @keyframes move-to-top{
     0% {
         position: absolute !important;
+        text-wrap: normal;
         top: 50%;
         font-size: 1rem;
     }
     100% {
         position: absolute !important;
+        text-wrap: nowrap;
         top: 30px;
         font-size: 3rem;
     }
