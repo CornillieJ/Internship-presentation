@@ -23,11 +23,12 @@ export function layoutSideBubbles(){
         const width = parseFloat(getComputedStyle(bubble).width);
         const height = parseFloat(getComputedStyle(bubble).height);
         const radius = Math.max(width, height) / 2;
+        const distanceFromCenter = radius - 30;
 
         const angle = (index / amount) * 2 * Math.PI;
 
-        let x = centerX + radius * Math.cos(angle);
-        let y = centerY + radius * Math.sin(angle);
+        let x = centerX + distanceFromCenter * Math.cos(angle);
+        let y = centerY + distanceFromCenter * Math.sin(angle);
 
         x = x- (width / windowWidth) * 100 / 2; // Adjust x to center the bubble without transform
         y = y- (height / windowHeight) * 100 / 2; // Adjust y to center the bubble without transform

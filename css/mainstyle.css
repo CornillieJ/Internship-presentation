@@ -1,56 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Rajdhani:wght@500;700&display=swap');
 @import './animations.css';
 
 :root{
-    --background-color-1: #000000;
-    --background-color-2: #0b0b1f;
-    --main-bubble-color: rgba(32, 82, 53, 0.486);
-    --main-bubble-color-transparent: rgba(54, 233, 128, 0.1);
-    --active-bubble-color: rgba(255, 255, 255, 0.404);
-    --side-bubble-color: rgb(52, 152, 219);
-    --side-bubble-color-transparent: rgba(52, 152, 219, 0.1);
+    --background-color-1: #0A0A10;
+    --background-color-2: #16102B;
+    --main-bubble-color: #0E82CE;
+    --main-bubble-color-transparent: rgba(14, 130, 206, 0.4);
+    --active-bubble-color: rgba(20, 20, 30, 0.95);
+    --side-bubble-color: #8A2BE2;
+    --side-bubble-color-transparent: rgba(138, 43, 226, 0.1);
     --text-color: #f5f5f5;
+    --hud-shield: #29b6f6;
+    --hud-health: #66bb6a;
 }
-body{
+html, body{
     background: linear-gradient(160deg, var(--background-color-2) 0%, var(--background-color-1) 100%);
-    /* background: radial-gradient(circle, var(--background-color-2) 0%, var(--background-color-1) 100%); */
     color: var(--text-color);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 div{
     max-width: 100vw;
     max-height: 100vh;
 }
-footer{
+/* Gamer HUD styling */
+#player-hud {
     position: fixed;
-    bottom: 0;
-    right: 0.5rem;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-width: 250px;
+    font-family: 'Luckiest Guy', cursive;
+    letter-spacing: 1px;
     pointer-events: none;
-    padding: 1rem 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    font-size: 0.8rem;
+}
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px black;
+}
+.player-name {
+    color: white;
+    font-size: 1.2rem;
+}
+.player-level {
+    color: #ffb74d;
+    font-size: 1.2rem;
+}
+.stats {
     display: flex;
     flex-direction: column;
-    text-align: right;
+    gap: 0.4rem;
 }
-    footer p{
-        margin: 0;
-    }
-    footer small{
-        color: gray;
-        font-size: 0.55rem;
-        margin: 0;
-    }
+.shield-bar, .hp-bar {
+    width: 100%;
+    height: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid #555;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+.shield-bar .fill, .hp-bar .fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    font-size: 0.9rem;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.3);
+}
+.shield-bar .fill {
+    width: 100%;
+    background: linear-gradient(90deg, #0288d1, var(--hud-shield));
+}
+.hp-bar .fill {
+    width: 100%;
+    background: linear-gradient(90deg, #388e3c, var(--hud-health));
+}
+
 ::selection{
     background-color: transparent;
 }
 #ripple-canvas{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     margin: 0;
     z-index: 2;
     position: absolute;
@@ -72,100 +117,181 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     z-index: 5;
     pointer-events: none;
 }
 .center-bubble{
     padding: 2rem;
-    background: linear-gradient(160deg, var(--background-color-2) -500%, var(--background-color-1) 500%);
-    /* background-color: var(--main-bubble-color); */
+    background: linear-gradient(135deg, var(--background-color-2), var(--main-bubble-color-transparent));
     margin: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--main-bubble-color);
     height: min(14rem, 25vw);
     width: min(14rem, 25vw);
     text-align: center;
-    font-size: 1.5rem;
-    border-radius: 50%;
-    animation: hover-effect infinite 3s ease-in-out;
+    font-size: 2rem;
+    font-family: 'Luckiest Guy', cursive;
+    color: var(--main-bubble-color);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    animation: hover-effect infinite 4s ease-in-out;
     pointer-events: auto;
-
+    position: relative;
 }
+    .center-bubble::after {
+        content: '';
+        position: absolute;
+        top: 2px; left: 2px; right: 2px; bottom: 2px;
+        background: linear-gradient(135deg, var(--background-color-2), var(--background-color-1));
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        z-index: -1;
+        pointer-events: none;
+    }
     .center-bubble:hover{
-        animation: heartbeat infinite 3s ease-in-out;
+        animation: tech-pulse 2s ease-in-out infinite;
+        color: white;
     }
 
 .active-bubble{
-    display: block !important;
+    display: flex;
+    flex-direction: column;
     width: 50vw;
-    height: 80vh !important;
+    height: 80vh;
     position: absolute;
-    animation:none;
-    border-radius: 10px !important;
-    align-items: flex-start !important;
+    animation: none;
+    border-radius: 8px !important;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%) !important;
+    background: var(--active-bubble-color) !important;
+    align-items: stretch !important;
     justify-content: flex-start !important;
     z-index: 20;
     opacity: 1;
-    left: 1% !important;
-    top: 1% !important;
+    left: 1rem !important;
+    top: 1rem !important;
     cursor: default !important;
+    border: 2px solid var(--side-bubble-color);
+    pointer-events: none;
 }
-    .active-bubble span{
-        font-size: 3rem;
-        margin: 0 auto;
-        position: static !important;
+    .active-bubble::after {
+        display: none !important;
+    }
+    .active-bubble .bubble-title {
+        position: absolute;
+        top: 1.5rem !important;
+        right: 2rem !important;
+        font-size: 2.5rem;
+        color: white;
+        text-shadow: 0 0 10px var(--side-bubble-color);
         pointer-events: none;
     }
-    .active-bubble p{
-        font-size: 1rem;
+    .active-bubble .split-pane {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        animation: fade-in 0.5s forwards 0.3s;
         pointer-events: none;
     }
-    .active-bubble:hover{
-        animation: none !important;
+    .pane-left {
+        flex: 1;
+        background-color: rgba(255, 255, 255, 0.05); /* Placeholder */
+        background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 20px, transparent 20px, transparent 40px);
+        border-right: 2px solid rgba(255,255,255,0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+    .pane-right {
+        flex: 1.5;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow-y: auto;
+    }
+    .pane-right ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pane-right li {
+        margin-bottom: 1.2rem;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+    .pane-right li::before {
+        content: '►';
+        position: absolute;
+        left: 0;
+        color: var(--main-bubble-color);
+        font-size: 0.8em;
+        top: 0.2rem;
+    }
+    .pane-right b {
+        color: var(--side-bubble-color);
+    }
+
+.placeholder-uefn { background: linear-gradient(135deg, rgba(14, 130, 206, 0.5), transparent); }
+.placeholder-team { background: linear-gradient(135deg, rgba(82, 32, 83, 0.5), transparent); }
+.placeholder-uefn-logo { background: linear-gradient(135deg, rgba(32, 82, 53, 0.5), transparent); }
+.placeholder-verse { background: linear-gradient(135deg, rgba(233, 128, 54, 0.5), transparent); }
+.placeholder-me { background: linear-gradient(135deg, rgba(206, 14, 130, 0.5), transparent); }
+.placeholder-ai { background: linear-gradient(135deg, rgba(54, 233, 200, 0.5), transparent); }
+.placeholder-game { background: linear-gradient(135deg, rgba(200, 200, 54, 0.5), transparent); }
 
 .side-bubble{
     position: absolute;
-    background: linear-gradient(160deg, var(--background-color-2) -200%, var(--background-color-1) 500%);
-    /* background-color: var(--background-color-1); */
-    border: 1px solid var(--side-bubble-color);
-    min-height: min(5rem, 15vw);
-    min-width: min(5rem, 15vw);
-    border-radius: 50%;
+    background: linear-gradient(135deg, var(--background-color-2), var(--side-bubble-color-transparent));
+    min-height: min(8rem, 18vw);
+    min-width: min(8rem, 18vw);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     z-index: 5;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
+    font-family: 'Luckiest Guy', cursive;
+    color: var(--side-bubble-color);
     pointer-events: auto;
+    cursor: pointer;
 }
+    .side-bubble::after {
+        content: '';
+        position: absolute;
+        top: 2px; left: 2px; right: 2px; bottom: 2px;
+        background: linear-gradient(135deg, var(--background-color-2), var(--background-color-1));
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        z-index: -1;
+    }
     .side-bubble:hover{
-        animation: heartbeat infinite 3s ease-in-out;
+        animation: tech-pulse 2s ease-in-out infinite;
+        color: white;
     }
 
 .background-bubble{
     position: absolute;
-    border: 1px solid;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     height: 2rem;
     width: 2rem;
-    border-radius: 50%;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
 .bubble{
 }
-    .bubble span{
+    .bubble .bubble-title{
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
     }
-    .bubble p{
+    .bubble .split-pane{
         pointer-events: none;
     }
     .bubble:hover{
@@ -183,6 +309,7 @@ footer{
     height: 100vh;
     background-color: rgba(255, 255, 255, 0.1);
     z-index: 3;
+    cursor: pointer;
 }
 .hidden{
     display: none;
@@ -199,9 +326,6 @@ footer{
 @media (max-width: 600px){
     .side-bubble{
         font-size: 0.6rem;
-    }
-    .center-bubble:hover{
-        animation: none !important;
     }
 }
 @media (min-width: 600px){

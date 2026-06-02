@@ -4,7 +4,7 @@ import * as UTILS from './utils.js';
 import { Bubble } from '../data/bubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
-let centerBubble, centerSpan;
+let centerSpan;
 let activeBubble;
 let isAnimating = false;
 const animationTime = 0.7;
@@ -12,8 +12,7 @@ const animationTime = 0.7;
 export function initialize(){
     const foundBubble = document.querySelector('.center-bubble');
     if(foundBubble){
-        centerBubble = new Bubble(foundBubble, 50, 50);
-        centerSpan = foundBubble.querySelector('span');
+        centerSpan = foundBubble.querySelector('.bubble-title');
         foundBubble.addEventListener('click', onBubbleClick);
     }
     sideBubbles.forEach(bubble => {
@@ -27,12 +26,11 @@ function onBubbleClick(e){
     isAnimating = true;
 
     if(activeBubble){
-        isAnimating = false;
-        onActiveBubbleClick({currentTarget: document.querySelector('.overlay')}, false);
+        onActiveBubbleClick({currentTarget: document.querySelector('.overlay')}, false, true);
         setTimeout(() => {
             onBubbleClick(e);
             isAnimating = false;
-        }, animationTime * 1050);
+        }, animationTime * 1100);
         return;
     }
 
@@ -41,14 +39,14 @@ function onBubbleClick(e){
     activeBubble.classList.remove('inactive-bubble');
     activeBubble.classList.add('activating-bubble');
 
-    const children = activeBubble.querySelectorAll('span');
-    const Paragraphs = activeBubble.querySelectorAll('p');
+    const children = activeBubble.querySelectorAll('.bubble-title');
+    const splitPanes = activeBubble.querySelectorAll('.split-pane');
 
     activeBubble.style.animation = `zoom-in ${animationTime}s ease-out`;
     children.forEach(child => {
         child.style.animation = `move-to-top ${animationTime}s ease-out`;
     });
-    Paragraphs.forEach(p => {
+    splitPanes.forEach(p => {
         p.style.animation = `fade-in ${animationTime}s ease-out`;
         p.style.animationFillMode = 'forwards';
     });
@@ -70,9 +68,9 @@ function onBubbleClick(e){
             bubble.element.classList.add('inactive-bubble');
             bubble.element.style.animation = '';
             const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
-            bubble.setPosition(75, yPosition);
+            bubble.setPosition(85, yPosition); // moved a bit further right
         });
-        Paragraphs.forEach(p => {
+        splitPanes.forEach(p => {
             p.style.animation = '';
             p.classList.remove('hidden');
         });
@@ -87,15 +85,16 @@ function onBubbleClick(e){
 }
 
 
-function onActiveBubbleClick(e, resetSideBubbles = true){
-    if(isAnimating) return;
-    centerSpan.classList.remove('right');
+function onActiveBubbleClick(e, resetSideBubbles = true, overrideAnimatingCheck = false){
+    if(isAnimating && !overrideAnimatingCheck) return;
     isAnimating = true;
+    centerSpan.classList.remove('right');
+    activeBubble.classList.remove('active-bubble');
     e.currentTarget.remove();
     clearAnimations();
     activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
-    const Paragraphs = activeBubble.querySelectorAll('p');
-    Paragraphs.forEach(p => {
+    const splitPanes = activeBubble.querySelectorAll('.split-pane');
+    splitPanes.forEach(p => {
         p.classList.add('hidden');
     });
 
@@ -111,14 +110,14 @@ function onActiveBubbleClick(e, resetSideBubbles = true){
         clearAnimations();
         activeBubble = null;
         isAnimating = false;
-    }, animationTime * 1000);
+    }, animationTime * 1100);
 }
 
 function clearAnimations(){
     const bubbles = document.querySelectorAll('.side-bubble, .center-bubble');
     bubbles.forEach(bubble => {
         bubble.style.animation = '';
-        const children = bubble.querySelectorAll('span');
+        const children = bubble.querySelectorAll('.bubble-title');
         children.forEach(child => {
             child.style.animation = '';
         });

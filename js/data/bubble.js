@@ -6,8 +6,8 @@ export class Bubble {
     height = 0;
     startingPosition = { x: 0, y: 0 };
     position = { x: 0, y: 0 };
-    floatSpeed = 0.05;
-    moveBackSpeed = 0.08;
+    floatSpeed = 0.15;
+    moveBackSpeed = 0.15;
     directionX = 0;
     directionY = 0;
     isMovingBack = false;
@@ -100,10 +100,6 @@ export class Bubble {
     }
     continueMovement(flipDirection = false){
         this.canMove = true;
-        if(flipDirection){
-            this.directionX *= -1;
-            this.directionY *= -1;
-        }
     }
     flipDirection(){
         this.directionX *= -1;
