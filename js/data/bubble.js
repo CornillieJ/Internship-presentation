@@ -1,4 +1,4 @@
-import * as UTILS from '/js/helpers/utils.js';
+import * as UTILS from '../helpers/utils.js';
 
 export class Bubble {
     element = null;

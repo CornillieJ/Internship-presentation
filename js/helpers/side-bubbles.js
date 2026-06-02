@@ -1,7 +1,7 @@
 'use strict';
 
-import * as UTILS from '/js/helpers/utils.js';
-import { Bubble } from '/js/data/bubble.js';
+import * as UTILS from './utils.js';
+import { Bubble } from '../data/bubble.js';
 
 export let sideBubbles = [];
 

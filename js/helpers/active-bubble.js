@@ -1,8 +1,8 @@
 'use strict';
 
-import * as UTILS from '/js/helpers/utils.js';
-import { Bubble } from '/js/data/bubble.js';
-import { sideBubbles } from '/js/helpers/side-bubbles.js';
+import * as UTILS from './utils.js';
+import { Bubble } from '../data/bubble.js';
+import { sideBubbles } from './side-bubbles.js';
 
 let centerBubble;
 let activeBubble;

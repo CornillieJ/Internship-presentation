@@ -1,6 +1,6 @@
 'use strict';
 
-import * as UTILS from '/js/helpers/utils.js';
+import * as UTILS from './utils.js';
 
 let pausedBubbles = []
 

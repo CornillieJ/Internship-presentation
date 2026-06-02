@@ -1,8 +1,8 @@
 'use strict';
-import * as BACKGROUND from '/js/helpers/background-bubbles.js';
-import * as SIDE from '/js/helpers/side-bubbles.js';
-import * as RIPPLES from '/js/helpers/ripples.js';
-import * as ACTIVE from '/js/helpers/active-bubble.js';
+import * as BACKGROUND from './helpers/background-bubbles.js';
+import * as SIDE from './helpers/side-bubbles.js';
+import * as RIPPLES from './helpers/ripples.js';
+import * as ACTIVE from './helpers/active-bubble.js';
 
 window.addEventListener('DOMContentLoaded', initialize);
 

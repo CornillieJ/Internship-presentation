@@ -1,4 +1,4 @@
-import * as BACKGROUND from '/js/helpers/background-bubbles.js';
+import * as BACKGROUND from './background-bubbles.js';
 
 const rippleSettings = {
   maxSize: 300,
