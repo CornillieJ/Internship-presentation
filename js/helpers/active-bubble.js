@@ -124,11 +124,12 @@ function animateSideBubbles(){
     const margin = 20;
     const sectionHeight = (100 - margin * 2) / amountPerSide;
     sideBubbles.forEach((bubble, index) => {
+            //rearrange index so last is first
             bubble.stopMovement(true);
             if(bubble.element === activeBubble) return;
             bubble.element.style.animation = '';
             let yPosition = (index % amountPerSide) * sectionHeight + margin;
-            const xPosition = (index / amountPerSide) >= 1 ? 80 : 20;
+            const xPosition = (index / amountPerSide) >= 1 ? 20 : 80;
             // yPosition = 
             if(xPosition > 50){
                 bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;

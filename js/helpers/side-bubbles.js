@@ -42,6 +42,14 @@ export function layoutSideBubbles(){
             avoidAllOtherBubbles();
         }, 100);
     });
+
+    // sort to match visually laid out with later index based positioning
+    sideBubbles.sort((a, b) => {
+        const aNum = parseFloat(a.element.id.match(/\d+/)[0]);
+        const bNum = parseFloat(b.element.id.match(/\d+/)[0]);
+        return aNum - bNum;
+    });
+    
 }
 
 function moveAllSideBubblesBack(e){

@@ -187,7 +187,6 @@ div{
     pointer-events: none;
 }
 .center-bubble{
-    padding: 2rem;
     background: radial-gradient(circle at center, var(--center-bubble-color) 0%, var(--center-bubble-color-transparent) 100%);
     margin: auto;
     display: flex;
@@ -253,7 +252,7 @@ div{
         position: absolute;
         top: 1.5rem !important;
         left: unset !important;
-        right: 0.5rem !important;
+        right: 2rem !important;
         transform: none !important;
         font-size: 2.5rem;
         color: white;
@@ -392,6 +391,7 @@ div{
 .inactive-bubble-right{
     left: 85% !important;
     transform: translateX(-50%);
+    transition: left 0.5s ease-in-out;
 }
     .inactive-bubble-right:hover{
         animation: tech-pulse-with-center-x 2s ease-in-out infinite;
@@ -399,6 +399,7 @@ div{
 .inactive-bubble-left{
     left: 15% !important;
     transform: translateX(-50%);
+    transition: left 0.5s ease-in-out;
 }
     .inactive-bubble-left:hover{
         animation: tech-pulse-with-center-x 2s ease-in-out infinite;
