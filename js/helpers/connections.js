@@ -53,8 +53,8 @@ function draw() {
         
         let gradient = ctx.createLinearGradient(cx, cy, sx, sy);
         // Using neon glowing colors
-        gradient.addColorStop(0, 'rgba(14, 130, 206, 0.6)');
-        gradient.addColorStop(1, 'rgba(138, 43, 226, 0.6)');
+        gradient.addColorStop(0, 'rgba(0, 255, 255, 0.8)');
+        gradient.addColorStop(1, 'rgba(255, 0, 230, 0.8)');
         
         ctx.strokeStyle = gradient;
         ctx.stroke();

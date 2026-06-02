@@ -4,9 +4,9 @@ const rippleSettings = {
   maxSize: 300,
   maxSizeInPercentage: 0.3,
   animationSpeed: 0.8,
-  strokeColor: [20,20,35],
+  strokeColor: [250,250,250],
   startOpacity: 0.6,
-  maxOpacityForMouseAvoidance: 0.25,
+  maxOpacityForMouseAvoidance: 0.4,
 };
 
 const canvasSettings = {

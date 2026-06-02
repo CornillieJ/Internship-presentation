@@ -4,16 +4,16 @@ import * as UTILS from './utils.js';
 import { Bubble } from '../data/bubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
-let centerSpan;
+let centerBubble, centerSpan;
 let activeBubble;
 let isAnimating = false;
 const animationTime = 0.7;
 
 export function initialize(){
-    const foundBubble = document.querySelector('.center-bubble');
-    if(foundBubble){
-        centerSpan = foundBubble.querySelector('.bubble-title');
-        foundBubble.addEventListener('click', onBubbleClick);
+    centerBubble = document.querySelector('.center-bubble');
+    if(centerBubble){
+        centerSpan = centerBubble.querySelector('.bubble-title');
+        centerBubble.addEventListener('click', onBubbleClick);
     }
     sideBubbles.forEach(bubble => {
         bubble.element.addEventListener('click', onBubbleClick);
@@ -53,9 +53,9 @@ function onBubbleClick(e){
     sideBubbles.forEach((bubble, index) => {
         bubble.stopMovement();
         if(bubble.element === activeBubble) return;
+        bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
         const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
         bubble.setPosition(75, yPosition);
-        bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
     });
 
     setTimeout(() => {
@@ -67,8 +67,9 @@ function onBubbleClick(e){
             if(bubble.element === activeBubble) return;
             bubble.element.classList.add('inactive-bubble');
             bubble.element.style.animation = '';
+            bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
             const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
-            bubble.setPosition(85, yPosition); // moved a bit further right
+            bubble.setPosition(75, yPosition);
         });
         splitPanes.forEach(p => {
             p.style.animation = '';
@@ -92,7 +93,10 @@ function onActiveBubbleClick(e, resetSideBubbles = true, overrideAnimatingCheck 
     activeBubble.classList.remove('active-bubble');
     e.currentTarget.remove();
     clearAnimations();
-    activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
+    if(activeBubble === centerBubble)
+        activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
+    else
+        activeBubble.style.animation = `zoom-back-side ${animationTime}s ease-out`;
     const splitPanes = activeBubble.querySelectorAll('.split-pane');
     splitPanes.forEach(p => {
         p.classList.add('hidden');

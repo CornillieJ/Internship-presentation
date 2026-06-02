@@ -2,19 +2,25 @@
 @import './animations.css';
 
 :root{
-    --background-color-1: #0A0A10;
-    --background-color-2: #16102B;
-    --main-bubble-color: #0E82CE;
-    --main-bubble-color-transparent: rgba(14, 130, 206, 0.4);
-    --active-bubble-color: rgba(20, 20, 30, 0.95);
-    --side-bubble-color: #8A2BE2;
-    --side-bubble-color-transparent: rgba(138, 43, 226, 0.1);
+    --background-color-1: #ca7bffA5;
+    --background-color-2: #3a1575A5;
+    --main-bubble-color: #f7a800;
+    --gold-color-1: #f9e46fd0;
+    --gold-color-2: #C29407;
+    --leaf-color-1: #6db33f;
+    --leaf-color-2: #afbd22;
+    --main-bubble-color-transparent: #E5374366;
+    --active-bubble-color: #330750e5;
+    --side-bubble-color: #ffffff;
+    --side-bubble-color-transparent: #328DC626;
     --text-color: #f5f5f5;
-    --hud-shield: #29b6f6;
+    --hud-shield: #00D0FF;
     --hud-health: #66bb6a;
 }
 html, body{
     background: linear-gradient(160deg, var(--background-color-2) 0%, var(--background-color-1) 100%);
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
     color: var(--text-color);
     font-family: 'Rajdhani', sans-serif;
     margin: 0;
@@ -43,6 +49,58 @@ div{
     letter-spacing: 1px;
     pointer-events: none;
 }
+#weapons-hud {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-width: 250px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.hud-weapon{
+    display: flex;
+    flex-direction: column;
+    width: 6rem;
+    height: 8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    scale: 1;
+    transition: scale 0.3s ease-in-out;
+}
+    .hud-weapon:hover{
+        scale: 1.1;
+    }
+    .hud-weapon .weapon-image{
+        width: 100%;
+        object-fit: contain;
+    }
+    .hud-weapon .ammo{
+        text-align: end;
+        padding: 0.2rem 0.5rem;
+        font-size: 1.2rem;
+        background-color: white;
+        color: black;
+        text-shadow: 1px 1px 2px black;
+        position: relative;
+    }
+    .hud-weapon .ammo::before{
+        content: '';
+        display: flex;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        background-image: url('../img/ammo.png');
+        background-size: 100% 100%;
+        width: 15px;
+        height: 15px;
+        transform: rotate(-45deg) translateY(-80%);
+    }
 .hud-top {
     display: flex;
     justify-content: space-between;
@@ -157,7 +215,6 @@ div{
 
 .active-bubble{
     display: flex;
-    flex-direction: column;
     width: 50vw;
     height: 80vh;
     position: absolute;
@@ -175,20 +232,27 @@ div{
     border: 2px solid var(--side-bubble-color);
     pointer-events: none;
 }
+    .active-bubble:hover {
+        animation:none !important;
+    }
     .active-bubble::after {
         display: none !important;
     }
     .active-bubble .bubble-title {
         position: absolute;
         top: 1.5rem !important;
-        right: 2rem !important;
+        left: unset !important;
+        right: 0.5rem !important;
+        transform: none !important;
         font-size: 2.5rem;
         color: white;
         text-shadow: 0 0 10px var(--side-bubble-color);
         pointer-events: none;
+        text-align: right;
     }
     .active-bubble .split-pane {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
         width: 100%;
         height: 100%;
         opacity: 0;
@@ -196,16 +260,16 @@ div{
         pointer-events: none;
     }
     .pane-left {
-        flex: 1;
         background-color: rgba(255, 255, 255, 0.05); /* Placeholder */
         background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 20px, transparent 20px, transparent 40px);
         border-right: 2px solid rgba(255,255,255,0.1);
-        display: flex;
+        display: grid;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
     .pane-right {
-        flex: 1.5;
+        position: relative;
         padding: 2rem;
         display: flex;
         flex-direction: column;
@@ -236,13 +300,27 @@ div{
         color: var(--side-bubble-color);
     }
 
-.placeholder-uefn { background: linear-gradient(135deg, rgba(14, 130, 206, 0.5), transparent); }
-.placeholder-team { background: linear-gradient(135deg, rgba(82, 32, 83, 0.5), transparent); }
-.placeholder-uefn-logo { background: linear-gradient(135deg, rgba(32, 82, 53, 0.5), transparent); }
-.placeholder-verse { background: linear-gradient(135deg, rgba(233, 128, 54, 0.5), transparent); }
-.placeholder-me { background: linear-gradient(135deg, rgba(206, 14, 130, 0.5), transparent); }
-.placeholder-ai { background: linear-gradient(135deg, rgba(54, 233, 200, 0.5), transparent); }
-.placeholder-game { background: linear-gradient(135deg, rgba(200, 200, 54, 0.5), transparent); }
+.placeholder-uefn {
+    background: linear-gradient(135deg, rgba(14, 130, 206, 0.5), transparent); 
+}
+.placeholder-team { 
+    background: linear-gradient(135deg, rgba(82, 32, 83, 0.5), transparent); 
+}
+.placeholder-uefn-logo {
+     background: linear-gradient(135deg, rgba(32, 82, 53, 0.5), transparent); 
+}
+.placeholder-verse {
+     background: linear-gradient(135deg, rgba(233, 128, 54, 0.5), transparent); 
+}
+.placeholder-me {
+     background: linear-gradient(135deg, rgba(206, 14, 130, 0.5), transparent); 
+}
+.placeholder-ai {
+     background: linear-gradient(135deg, rgba(54, 233, 200, 0.5), transparent); 
+}
+.placeholder-game {
+     background: linear-gradient(135deg, rgba(200, 200, 54, 0.5), transparent); 
+    }
 
 .side-bubble{
     position: absolute;
@@ -279,7 +357,7 @@ div{
     border: 1px solid rgba(255, 255, 255, 0.1);
     height: 2rem;
     width: 2rem;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(135deg, var(--leaf-color-1), var(--leaf-color-2));
 }
 
 .bubble{
@@ -310,6 +388,8 @@ div{
     background-color: rgba(255, 255, 255, 0.1);
     z-index: 3;
     cursor: pointer;
+    /* add blur */
+    backdrop-filter: blur(10px);
 }
 .hidden{
     display: none;
@@ -322,11 +402,52 @@ div{
     transform: translateY(-50%) !important;
 
 }
+.team-logo{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+}
+.pane-image{
+    border-radius: 4px;
+    object-fit: contain;
+    height: 100%;
+}
 
+#team-image{
+    width: 250%;
+    height: 100%;
+    margin: auto;
+    object-fit: fill;
+}
+#experimental-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+#tycoon-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 @media (max-width: 600px){
     .side-bubble{
         font-size: 0.6rem;
     }
 }
 @media (min-width: 600px){
+}
+.leaf-1{
+    clip-path: polygon(50% 0%, 75% 15%, 90% 40%, 75% 75%, 50% 100%, 25% 75%, 10% 40%, 25% 15%);
+}
+.leaf-2{
+    clip-path: polygon(50% 0%, 70% 20%, 85% 50%, 70% 80%, 50% 100%, 30% 80%, 15% 50%, 30% 20%);
+}
+.leaf-3{
+  border-radius: 0% 100% 0% 100%; 
+}
+.gold{
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
 }

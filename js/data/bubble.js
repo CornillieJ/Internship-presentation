@@ -105,7 +105,6 @@ export class Bubble {
         this.directionX *= -1;
         this.directionY *= -1;
         this.lastFlipped = Date.now();
-        console.log(`Flipped direction to (${this.directionX}, ${this.directionY})`);
     }
     onHover(){
         this.pauseMovement()

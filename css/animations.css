@@ -89,6 +89,22 @@
         top: 50vh !important;
     }
 }
+@keyframes zoom-back-side{
+    0% {
+        position: absolute !important;
+        width: 50vw;
+        height: 80vh;
+        opacity: 1;
+        border-radius: 10px;
+    }
+   100% {
+        position: absolute !important;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        left: 60%;
+    }
+}
 @keyframes move-to-top{
     0% {
         position: absolute !important;
@@ -105,7 +121,7 @@
 }
 @keyframes move-to-right{
     0% {
-        left: 50%;
+        left: 60%;
     }
     100% {
         left: 70%;
