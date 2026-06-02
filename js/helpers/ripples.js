@@ -5,6 +5,8 @@ const rippleSettings = {
   maxSizeInPercentage: 0.3,
   animationSpeed: 0.8,
   strokeColor: [20,20,35],
+  startOpacity: 0.6,
+  maxOpacityForMouseAvoidance: 0.25,
 };
 
 const canvasSettings = {
@@ -21,7 +23,7 @@ const Ripple = function Ripple(x, y, circleSize, ctx) {
   this.position = new Coords(x, y);
   this.circleSize = circleSize;
   this.maxSize = rippleSettings.maxSize;
-  this.opacity = 0.5;
+  this.opacity = rippleSettings.startOpacity;
   this.ctx = ctx;
   this.strokeColor = `rgba(${Math.floor(rippleSettings.strokeColor[0])},
     ${Math.floor(rippleSettings.strokeColor[1])},
@@ -40,7 +42,8 @@ Ripple.prototype = {
       ${Math.floor(rippleSettings.strokeColor[1])},
       ${Math.floor(rippleSettings.strokeColor[2])},
       ${this.opacity})`;
-    if(this.opacity >= 0.25) BACKGROUND.avoidPosition(this.position.x, this.position.y, this.circleSize);
+    if(this.opacity >= rippleSettings.maxOpacityForMouseAvoidance) 
+      BACKGROUND.avoidPosition(this.position.x, this.position.y, this.circleSize);
   },
   draw: function draw() {
     this.ctx.beginPath();

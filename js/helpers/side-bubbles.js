@@ -37,6 +37,9 @@ export function layoutSideBubbles(){
         sideBubbles.push(bubbleObj);
 
         bubbleObj.gentlyFloatAround();
+        setInterval(() => {
+            avoidAllOtherBubbles();
+        }, 100);
     });
 }
 
@@ -59,6 +62,47 @@ function restartAllSideBubbles(e){
         bubble.continueMovement();
     }
 }
+function avoidAllOtherBubbles(){
+    sideBubbles.forEach(bubble => {
+        avoidOtherBubbles(bubble.element);
+    });
+}
 
-function onSideBubbleClick(){
+function avoidOtherBubbles(bubble){
+    const bubbles = document.querySelectorAll('.bubble');
+    const centerBubble = document.querySelector('.center-bubble');
+    const centerBubbleWidth = parseFloat(getComputedStyle(centerBubble).width);
+    const centerBubbleHeight = parseFloat(getComputedStyle(centerBubble).height);
+    const bubbleWidth = parseFloat(getComputedStyle(bubble).width);
+    const bubbleHeight = parseFloat(getComputedStyle(bubble).height);
+    for(const otherBubble of bubbles){
+        if(otherBubble === bubble) return;
+        if(otherBubble === centerBubble || bubble === centerBubble)
+            moveBubbleAway(bubble, centerBubble, Math.max(centerBubbleWidth, centerBubbleHeight));
+        else
+            moveBubbleAway(otherBubble, bubble, Math.max(bubbleWidth, bubbleHeight));
+    }
+}
+
+export function moveBubbleAway(bubble, otherBubble, minDistance){
+    const bubbleRect = bubble.getBoundingClientRect();
+    const bubbleX = bubbleRect.left + bubbleRect.width / 2;
+    const bubbleY = bubbleRect.top + bubbleRect.height / 2;
+    const otherBubbleRect = otherBubble.getBoundingClientRect();
+    const otherBubbleX = otherBubbleRect.left + otherBubbleRect.width / 2;
+    const otherBubbleY = otherBubbleRect.top + otherBubbleRect.height / 2;
+    let deltaX = bubbleX - otherBubbleX;
+    let deltaY = bubbleY - otherBubbleY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    if(distance < minDistance){
+        const bubbleObj = sideBubbles.find(b => b.element === bubble);
+        const otherBubbleObj = sideBubbles.find(b => b.element === otherBubble);
+        if(bubbleObj && Date.now() - bubbleObj.lastFlipped > 500){
+            bubbleObj.flipDirection();
+        }
+        else if(otherBubbleObj && Date.now() - otherBubbleObj.lastFlipped > 500){
+            otherBubbleObj.flipDirection();
+        }
+    }
 }

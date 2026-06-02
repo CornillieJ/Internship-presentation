@@ -3,19 +3,25 @@ import * as UTILS from '../helpers/utils.js';
 export class Bubble {
     element = null;
     width = 0;
+    height = 0;
     startingPosition = { x: 0, y: 0 };
     position = { x: 0, y: 0 };
     floatSpeed = 0.05;
     moveBackSpeed = 0.08;
+    directionX = 0;
+    directionY = 0;
     isMovingBack = false;
     canMove = true;
     cancelMovement = false;
+    lastFlipped = 0;
 
     constructor(element, x, y){
         this.element = element;
         this.startingPosition = { x, y };
-        const Calculatedwidth = parseFloat(getComputedStyle(element).width);
-        this.width = (Calculatedwidth / window.innerWidth) * 100;
+        const calculatedWidth = element.getBoundingClientRect().width;
+        const calculatedHeight = element.getBoundingClientRect().height;
+        this.width = (calculatedWidth / window.innerWidth) * 100;
+        this.height = (calculatedHeight / window.innerHeight) * 100;
         this.setPosition(x, y);
         element.addEventListener('mouseover', () => this.onHover());
         element.addEventListener('mouseout', () => this.onHoverEnd());
@@ -23,7 +29,7 @@ export class Bubble {
 
     setPosition(x, y, isXImportant = false, isYImportant = false){
         x = Math.max(0, Math.min(100 - this.width, x));
-        y = Math.max(0, Math.min(100 - this.width, y));
+        y = Math.max(0, Math.min(100 - this.height, y));
         this.position = { x, y };
         this.element.style.left = `${x}%`;
         this.element.style.top = `${y}%`;
@@ -39,14 +45,14 @@ export class Bubble {
         this.setPosition(this.startingPosition.x, this.startingPosition.y);
     }
 
-    gentlyFloatAround(turnOdds = 0.005){
-        let directionX = UTILS.getRandomDirection();
-        let directionY = UTILS.getRandomDirection();
+    gentlyFloatAround(turnOdds = 0.01){
+        this.directionX = UTILS.getRandomDirection();
+        this.directionY = UTILS.getRandomDirection();
         const interval = setInterval(() => {
             if(!this.isMovingBack && this.canMove){
-                this.addPosition(this.floatSpeed * directionX, this.floatSpeed * directionY);
-                if(UTILS.getRandomTrue(turnOdds)) directionY *= -1;
-                if(UTILS.getRandomTrue(turnOdds)) directionX *= -1;
+                this.addPosition(this.floatSpeed * this.directionX, this.floatSpeed * this.directionY);
+                if(UTILS.getRandomTrue(turnOdds) || this.position.y <= 0 || this.position.y >= 100 - this.height) this.directionY *= -1;
+                if(UTILS.getRandomTrue(turnOdds) || this.position.x <= 0 || this.position.x >= 100 - this.width) this.directionX *= -1;
             }
             if(this.cancelMovement){
                 clearInterval(interval);
@@ -92,8 +98,18 @@ export class Bubble {
     pauseMovement(){
         this.canMove = false;
     }
-    continueMovement(){
+    continueMovement(flipDirection = false){
         this.canMove = true;
+        if(flipDirection){
+            this.directionX *= -1;
+            this.directionY *= -1;
+        }
+    }
+    flipDirection(){
+        this.directionX *= -1;
+        this.directionY *= -1;
+        this.lastFlipped = Date.now();
+        console.log(`Flipped direction to (${this.directionX}, ${this.directionY})`);
     }
     onHover(){
         this.pauseMovement()

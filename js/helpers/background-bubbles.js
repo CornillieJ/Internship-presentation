@@ -67,7 +67,7 @@ export function avoidPosition(x, y, distance){
 }
 
 
-export function moveBubbleAway(bubble, x, y, minDistance, isAvoidingMouse = true){
+export function moveBubbleAway(bubble, x, y, minDistance){
     const bubbleRect = bubble.getBoundingClientRect();
     const bubbleX = bubbleRect.left + bubbleRect.width / 2;
     const bubbleY = bubbleRect.top + bubbleRect.height / 2;
@@ -76,7 +76,6 @@ export function moveBubbleAway(bubble, x, y, minDistance, isAvoidingMouse = true
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     if(distance < minDistance){
-        if(!isAvoidingMouse) console.log(`Avoiding bubble at (${bubbleX}, ${bubbleY}) with distance ${distance} < ${minDistance}`);
         pausedBubbles.push({element:bubble, lastMoved: Date.now()});
         const angle = Math.atan2(deltaY, deltaX);
         const moveX = Math.cos(angle);
@@ -107,6 +106,6 @@ function avoidOtherBubbles(bubble){
     const bubbleY = bubbleRect.top + bubbleRect.height / 2;
     for(const otherBubble of bubbles){
         if(otherBubble === bubble) return;
-        moveBubbleAway(otherBubble, bubbleX, bubbleY, Math.max(bubbleWidth, bubbleHeight, false));
+        moveBubbleAway(otherBubble, bubbleX, bubbleY, Math.max(bubbleWidth, bubbleHeight));
     }
 }

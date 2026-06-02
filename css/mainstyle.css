@@ -66,6 +66,8 @@ footer{
 }
 .main-bubbles-container{
     position: absolute;
+    top: 0;
+    left: 0;
     margin: auto;
     display: flex;
     justify-content: center;
