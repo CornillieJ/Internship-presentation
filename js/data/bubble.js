@@ -38,6 +38,7 @@ export class Bubble {
     }
 
     addPosition(x, y){
+        if(this.cancelMovement) return;
         this.setPosition(this.position.x + x, this.position.y + y);
     }
 
@@ -49,7 +50,7 @@ export class Bubble {
         this.directionX = UTILS.getRandomDirection();
         this.directionY = UTILS.getRandomDirection();
         const interval = setInterval(() => {
-            if(!this.isMovingBack && this.canMove){
+            if(!this.isMovingBack && this.canMove && !this.cancelMovement){
                 this.addPosition(this.floatSpeed * this.directionX, this.floatSpeed * this.directionY);
                 if(UTILS.getRandomTrue(turnOdds) || this.position.y <= 0 || this.position.y >= 100 - this.height) this.directionY *= -1;
                 if(UTILS.getRandomTrue(turnOdds) || this.position.x <= 0 || this.position.x >= 100 - this.width) this.directionX *= -1;
@@ -85,9 +86,14 @@ export class Bubble {
 
     }
 
-    stopMovement(){
+    stopMovement(clearPosition = false){
         this.cancelMovement = true;
         this.pauseMovement();
+        if(clearPosition) this.clearPosition();
+    }
+    clearPosition(){
+        this.element.style.left = '';
+        this.element.style.top = '';
     }
     restartMovement(){
         this.cancelMovement = false;

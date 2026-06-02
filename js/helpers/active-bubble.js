@@ -7,7 +7,7 @@ import { sideBubbles } from './side-bubbles.js';
 let centerBubble, centerSpan;
 let activeBubble;
 let isAnimating = false;
-const animationTime = 0.7;
+const animationTime = 0.5;
 
 export function initialize(){
     centerBubble = document.querySelector('.center-bubble');
@@ -35,8 +35,11 @@ function onBubbleClick(e){
     }
 
     activeBubble = e.currentTarget;
+    const foundBubble = sideBubbles.find(b => b.element === activeBubble);
+    if(foundBubble) foundBubble.stopMovement(true);
     if(!activeBubble) activeBubble = e.target;
-    activeBubble.classList.remove('inactive-bubble');
+    activeBubble.classList.remove('inactive-bubble-left');
+    activeBubble.classList.remove('inactive-bubble-right');
     activeBubble.classList.add('activating-bubble');
 
     const children = activeBubble.querySelectorAll('.bubble-title');
@@ -50,27 +53,14 @@ function onBubbleClick(e){
         p.style.animation = `fade-in ${animationTime}s ease-out`;
         p.style.animationFillMode = 'forwards';
     });
-    sideBubbles.forEach((bubble, index) => {
-        bubble.stopMovement();
-        if(bubble.element === activeBubble) return;
-        bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
-        const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
-        bubble.setPosition(75, yPosition);
-    });
+    animateSideBubbles();
 
     setTimeout(() => {
         activeBubble.classList.add('active-bubble');
         activeBubble.classList.remove('activating-bubble');
         centerSpan.classList.add('right');
-        sideBubbles.forEach((bubble, index) => {
-            bubble.stopMovement();
-            if(bubble.element === activeBubble) return;
-            bubble.element.classList.add('inactive-bubble');
-            bubble.element.style.animation = '';
-            bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
-            const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
-            bubble.setPosition(75, yPosition);
-        });
+        animateSideBubbles();
+        
         splitPanes.forEach(p => {
             p.style.animation = '';
             p.classList.remove('hidden');
@@ -96,7 +86,7 @@ function onActiveBubbleClick(e, resetSideBubbles = true, overrideAnimatingCheck 
     if(activeBubble === centerBubble)
         activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
     else
-        activeBubble.style.animation = `zoom-back-side ${animationTime}s ease-out`;
+        activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
     const splitPanes = activeBubble.querySelectorAll('.split-pane');
     splitPanes.forEach(p => {
         p.classList.add('hidden');
@@ -107,7 +97,8 @@ function onActiveBubbleClick(e, resetSideBubbles = true, overrideAnimatingCheck 
         activeBubble.classList.remove('active-bubble');
         if(resetSideBubbles){
             sideBubbles.forEach((bubble, index) => {
-                bubble.element.classList.remove('inactive-bubble');
+                bubble.element.classList.remove('inactive-bubble-left');
+                bubble.element.classList.remove('inactive-bubble-right');
                 bubble.restartMovement();
             });
         }
@@ -126,4 +117,28 @@ function clearAnimations(){
             child.style.animation = '';
         });
     });
+}
+
+function animateSideBubbles(){
+    const amountPerSide = Math.ceil(sideBubbles.length / 2);
+    const margin = 20;
+    const sectionHeight = (100 - margin * 2) / amountPerSide;
+    sideBubbles.forEach((bubble, index) => {
+            bubble.stopMovement(true);
+            if(bubble.element === activeBubble) return;
+            bubble.element.style.animation = '';
+            let yPosition = (index % amountPerSide) * sectionHeight + margin;
+            const xPosition = (index / amountPerSide) >= 1 ? 80 : 20;
+            // yPosition = 
+            if(xPosition > 50){
+                bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
+                bubble.element.classList.add('inactive-bubble-right');
+            }
+            else{
+                bubble.element.style.animation = `move-to-left ${animationTime}s ease-out`;
+                bubble.element.classList.add('inactive-bubble-left');
+            }
+
+            bubble.setPosition(xPosition, yPosition);
+        });
 }

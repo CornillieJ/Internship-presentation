@@ -42,7 +42,7 @@ function draw() {
     
     ctx.lineWidth = 2;
     // Draw lines to all side bubbles
-    sideBubbles.forEach(bubble => {
+    sideBubbles.forEach((bubble, index) => {
         const sideRect = bubble.element.getBoundingClientRect();
         const sx = sideRect.left + sideRect.width / 2;
         const sy = sideRect.top + sideRect.height / 2;
@@ -53,9 +53,10 @@ function draw() {
         
         let gradient = ctx.createLinearGradient(cx, cy, sx, sy);
         // Using neon glowing colors
-        gradient.addColorStop(0, 'rgba(0, 255, 255, 0.8)');
-        gradient.addColorStop(1, 'rgba(255, 0, 230, 0.8)');
-        
+        gradient.addColorStop(0, 'transparent');
+        gradient.addColorStop(0.2, 'transparent');
+        gradient.addColorStop(0.2, 'rgba(238, 186, 255, 0.5)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.49)');
         ctx.strokeStyle = gradient;
         ctx.stroke();
     });
