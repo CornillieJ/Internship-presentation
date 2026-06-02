@@ -2,15 +2,15 @@
 @import './animations.css';
 
 :root{
-    --background-color-1: #ca7bffA5;
-    --background-color-2: #3a1575A5;
+    --background-color-1: #ca7bff;
+    --background-color-2: #3a1575;
     --main-bubble-color: #f7a800;
     --gold-color-1: #f9e46fd0;
     --gold-color-2: #C29407;
     --leaf-color-1: #6db33f;
     --leaf-color-2: #afbd22;
     --main-bubble-color-transparent: #E5374366;
-    --active-bubble-color: #330750e5;
+    --active-bubble-color: #330750;
     --side-bubble-color: #ffffff;
     --side-bubble-color-transparent: #328DC626;
     --text-color: #f5f5f5;
@@ -61,7 +61,8 @@ div{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     min-width: 250px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
 }
 .hud-weapon{
     display: flex;
@@ -80,8 +81,9 @@ div{
         width: 100%;
         object-fit: contain;
     }
-    .hud-weapon .ammo{
+    .hud-weapon .ammo, .empty-ammo{
         text-align: end;
+        min-height: 1.6rem;
         padding: 0.2rem 0.5rem;
         font-size: 1.2rem;
         background-color: white;
@@ -101,6 +103,7 @@ div{
         height: 15px;
         transform: rotate(-45deg) translateY(-80%);
     }
+
 .hud-top {
     display: flex;
     justify-content: space-between;
@@ -211,6 +214,9 @@ div{
     .center-bubble:hover{
         animation: tech-pulse 2s ease-in-out infinite;
         color: white;
+    }
+    .center-bubble:hover::after, .side-bubble:hover::after{
+        display: none;
     }
 
 .active-bubble{
