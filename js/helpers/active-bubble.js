@@ -7,6 +7,7 @@ import { sideBubbles } from './side-bubbles.js';
 let centerBubble;
 let activeBubble;
 let isAnimating = false;
+const animationTime = 0.7;
 
 export function initialize(){
     const foundBubble = document.querySelector('.center-bubble');
@@ -20,7 +21,6 @@ export function initialize(){
 }
 
 function onBubbleClick(e){
-    const animationTime = 1;
     if(e.target === activeBubble) return;
     if(isAnimating) return;
     isAnimating = true;
@@ -37,8 +37,8 @@ function onBubbleClick(e){
 
     activeBubble = e.currentTarget;
     if(!activeBubble) activeBubble = e.target;
-    activeBubble.classList.add('activating-bubble');
     activeBubble.classList.remove('inactive-bubble');
+    activeBubble.classList.add('activating-bubble');
 
     const children = activeBubble.querySelectorAll('span');
     const Paragraphs = activeBubble.querySelectorAll('p');
@@ -88,7 +88,6 @@ function onBubbleClick(e){
 function onActiveBubbleClick(e, resetSideBubbles = true){
     if(isAnimating) return;
     isAnimating = true;
-    const animationTime = 1;
     e.currentTarget.remove();
     clearAnimations();
     activeBubble.style.animation = `zoom-back ${animationTime}s ease-out`;
