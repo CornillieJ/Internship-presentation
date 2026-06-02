@@ -84,8 +84,8 @@ footer{
     justify-content: center;
     align-items: center;
     border: 1px solid var(--main-bubble-color);
-    height: 11rem;
-    width: 11rem;
+    height: min(11rem, 40vw);
+    width: min(11rem, 40vw);
     text-align: center;
     font-size: 1.5rem;
     border-radius: 50%;
@@ -185,3 +185,16 @@ footer{
 .hidden{
     display: none;
 }
+
+/* @media (max-width: 600px){
+    .center-bubble{
+        height: 11rem;
+        width: 11rem;
+    }
+}
+@media (min-width: 600px){
+    .center-bubble{
+        height: 11rem;
+        width: 11rem;
+    }
+} */

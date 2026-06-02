@@ -2,6 +2,7 @@ import * as BACKGROUND from './background-bubbles.js';
 
 const rippleSettings = {
   maxSize: 300,
+  maxSizeInPercentage: 0.3,
   animationSpeed: 0.8,
   strokeColor: [20,20,35],
 };
@@ -66,6 +67,7 @@ export function initialize() {
 
   const height = window.innerHeight;
   const width = window.innerWidth;
+  rippleSettings.maxSize = Math.min(width, height) * rippleSettings.maxSizeInPercentage;
   const rippleStartStatus = 'start';
   const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
   canvas.style.filter = `blur(${canvasSettings.blur}px)`;
