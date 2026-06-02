@@ -86,8 +86,8 @@ footer{
     justify-content: center;
     align-items: center;
     border: 1px solid var(--main-bubble-color);
-    height: min(11rem, 40vw);
-    width: min(11rem, 40vw);
+    height: min(14rem, 25vw);
+    width: min(14rem, 25vw);
     text-align: center;
     font-size: 1.5rem;
     border-radius: 50%;
@@ -102,7 +102,7 @@ footer{
 .active-bubble{
     display: block !important;
     width: 50vw;
-    height: auto !important;
+    height: 80vh !important;
     position: absolute;
     animation:none;
     border-radius: 10px !important;
@@ -133,8 +133,8 @@ footer{
     background: linear-gradient(160deg, var(--background-color-2) -200%, var(--background-color-1) 500%);
     /* background-color: var(--background-color-1); */
     border: 1px solid var(--side-bubble-color);
-    min-height: 5rem;
-    min-width: 5rem;
+    min-height: min(5rem, 15vw);
+    min-width: min(5rem, 15vw);
     border-radius: 50%;
     z-index: 5;
     display: flex;
@@ -187,16 +187,22 @@ footer{
 .hidden{
     display: none;
 }
+.right{
+    position: absolute !important;
+    left: unset !important;
+    right: 2rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
 
-/* @media (max-width: 600px){
-    .center-bubble{
-        height: 11rem;
-        width: 11rem;
+}
+
+@media (max-width: 600px){
+    .side-bubble{
+        font-size: 0.6rem;
+    }
+    .center-bubble:hover{
+        animation: none !important;
     }
 }
 @media (min-width: 600px){
-    .center-bubble{
-        height: 11rem;
-        width: 11rem;
-    }
-} */
+}

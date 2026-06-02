@@ -4,7 +4,7 @@ import * as UTILS from './utils.js';
 import { Bubble } from '../data/bubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
-let centerBubble;
+let centerBubble, centerSpan;
 let activeBubble;
 let isAnimating = false;
 const animationTime = 0.7;
@@ -13,6 +13,7 @@ export function initialize(){
     const foundBubble = document.querySelector('.center-bubble');
     if(foundBubble){
         centerBubble = new Bubble(foundBubble, 50, 50);
+        centerSpan = foundBubble.querySelector('span');
         foundBubble.addEventListener('click', onBubbleClick);
     }
     sideBubbles.forEach(bubble => {
@@ -62,6 +63,7 @@ function onBubbleClick(e){
     setTimeout(() => {
         activeBubble.classList.add('active-bubble');
         activeBubble.classList.remove('activating-bubble');
+        centerSpan.classList.add('right');
         sideBubbles.forEach((bubble, index) => {
             bubble.stopMovement();
             if(bubble.element === activeBubble) return;
@@ -87,6 +89,7 @@ function onBubbleClick(e){
 
 function onActiveBubbleClick(e, resetSideBubbles = true){
     if(isAnimating) return;
+    centerSpan.classList.remove('right');
     isAnimating = true;
     e.currentTarget.remove();
     clearAnimations();
