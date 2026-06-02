@@ -11,7 +11,7 @@
     --text-color: #f5f5f5;
 }
 body{
-    background: linear-gradient(135deg, var(--background-color-2) 0%, var(--background-color-1) 100%);
+    background: linear-gradient(160deg, var(--background-color-2) 0%, var(--background-color-1) 100%);
     /* background: radial-gradient(circle, var(--background-color-2) 0%, var(--background-color-1) 100%); */
     color: var(--text-color);
     font-family: 'Arial', sans-serif;
@@ -57,7 +57,8 @@ div{
 }
 .center-bubble{
     padding: 2rem;
-    background-color: var(--main-bubble-color);
+    background: linear-gradient(160deg, var(--background-color-2) -500%, var(--background-color-1) 500%);
+    /* background-color: var(--main-bubble-color); */
     margin: auto;
     display: flex;
     justify-content: center;
@@ -107,7 +108,8 @@ div{
 
 .side-bubble{
     position: absolute;
-    background-color: var(--background-color);
+    background: linear-gradient(160deg, var(--background-color-2) -200%, var(--background-color-1) 500%);
+    /* background-color: var(--background-color-1); */
     border: 1px solid var(--side-bubble-color);
     min-height: 5rem;
     min-width: 5rem;
@@ -157,7 +159,7 @@ div{
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
     z-index: 3;
 }
 .hidden{
