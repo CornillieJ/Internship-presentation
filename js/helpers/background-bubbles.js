@@ -13,7 +13,7 @@ function onMouseMove(e){
 
 export function createBackgroundBubbles(){
     const container = document.querySelector('.background-bubbles-container');
-    for(let i = 0; i < 30; i++){
+    for(let i = 0; i < 40; i++){
         createNewBubble();
     }
 }

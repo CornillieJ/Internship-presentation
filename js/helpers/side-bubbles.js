@@ -41,7 +41,9 @@ export function layoutSideBubbles(){
 }
 
 function moveAllSideBubblesBack(e){
-    if (e.target.classList.contains('active-bubble') || e.target.classList.contains('activating-bubble')) 
+    const activeBubble = document.querySelector('.active-bubble');
+    const activatingBubble = document.querySelector('.activating-bubble');
+    if (activeBubble || activatingBubble) 
         return;
     for(const bubble of sideBubbles){
         bubble.moveBack();
@@ -49,7 +51,9 @@ function moveAllSideBubblesBack(e){
     }
 }
 function restartAllSideBubbles(e){
-    if (e.target.classList.contains('active-bubble') || e.target.classList.contains('activating-bubble')) 
+    const activeBubble = document.querySelector('.active-bubble');
+    const activatingBubble = document.querySelector('.activating-bubble');
+    if (activeBubble || activatingBubble) 
         return;
     for(const bubble of sideBubbles){
         bubble.continueMovement();

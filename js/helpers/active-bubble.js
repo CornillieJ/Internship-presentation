@@ -6,7 +6,7 @@ import { sideBubbles } from '/js/helpers/side-bubbles.js';
 
 let centerBubble;
 let activeBubble;
-window.addEventListener('resize', onResize);
+let isAnimating = false;
 
 export function initialize(){
     const foundBubble = document.querySelector('.center-bubble');
@@ -22,11 +22,15 @@ export function initialize(){
 function onBubbleClick(e){
     const animationTime = 1;
     if(e.target === activeBubble) return;
+    if(isAnimating) return;
+    isAnimating = true;
 
     if(activeBubble){
-        onActiveBubbleClick({currentTarget: document.querySelector('.overlay')});
+        isAnimating = false;
+        onActiveBubbleClick({currentTarget: document.querySelector('.overlay')}, false);
         setTimeout(() => {
             onBubbleClick(e);
+            isAnimating = false;
         }, animationTime * 1050);
         return;
     }
@@ -34,6 +38,7 @@ function onBubbleClick(e){
     activeBubble = e.currentTarget;
     if(!activeBubble) activeBubble = e.target;
     activeBubble.classList.add('activating-bubble');
+    activeBubble.classList.remove('inactive-bubble');
 
     const children = activeBubble.querySelectorAll('span');
     const Paragraphs = activeBubble.querySelectorAll('p');
@@ -49,7 +54,7 @@ function onBubbleClick(e){
     sideBubbles.forEach((bubble, index) => {
         bubble.stopMovement();
         if(bubble.element === activeBubble) return;
-        const yPosition = index * (100 / sideBubbles.length - 1);
+        const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
         bubble.setPosition(75, yPosition);
         bubble.element.style.animation = `move-to-right ${animationTime}s ease-out`;
     });
@@ -62,7 +67,7 @@ function onBubbleClick(e){
             if(bubble.element === activeBubble) return;
             bubble.element.classList.add('inactive-bubble');
             bubble.element.style.animation = '';
-            const yPosition = index * (100 / sideBubbles.length - 1);
+            const yPosition = (index + 1) * (100 / (sideBubbles.length + 1));
             bubble.setPosition(75, yPosition);
         });
         Paragraphs.forEach(p => {
@@ -70,6 +75,7 @@ function onBubbleClick(e){
             p.classList.remove('hidden');
         });
         clearAnimations();
+        isAnimating = false;
     }, animationTime * 1000);
 
     const divOverlay = document.createElement('div');
@@ -79,7 +85,9 @@ function onBubbleClick(e){
 }
 
 
-function onActiveBubbleClick(e){
+function onActiveBubbleClick(e, resetSideBubbles = true){
+    if(isAnimating) return;
+    isAnimating = true;
     const animationTime = 1;
     e.currentTarget.remove();
     clearAnimations();
@@ -92,12 +100,15 @@ function onActiveBubbleClick(e){
     setTimeout(() => {
         if(!activeBubble) return;
         activeBubble.classList.remove('active-bubble');
-        sideBubbles.forEach((bubble, index) => {
-            bubble.element.classList.remove('inactive-bubble');
-            bubble.restartMovement();
-        });
-        activeBubble = null;
+        if(resetSideBubbles){
+            sideBubbles.forEach((bubble, index) => {
+                bubble.element.classList.remove('inactive-bubble');
+                bubble.restartMovement();
+            });
+        }
         clearAnimations();
+        activeBubble = null;
+        isAnimating = false;
     }, animationTime * 1000);
 }
 
@@ -109,10 +120,5 @@ function clearAnimations(){
         children.forEach(child => {
             child.style.animation = '';
         });
-    });
-}
-function onResize(){
-    const bubbles = document.querySelectorAll('.inactive-bubble');
-    bubbles.forEach(bubble => {
     });
 }

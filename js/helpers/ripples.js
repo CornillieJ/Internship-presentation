@@ -75,7 +75,7 @@ export function initialize() {
   canvas.style.height = `${height}px`;
 
   animation();
-  canvas.addEventListener('mousemove', canvasMouseOver);
+  window.addEventListener('mousemove', canvasMouseOver);
   window.addEventListener('resize', ()=>{
       const height = window.innerHeight;
       const width = window.innerWidth;
