@@ -3,7 +3,7 @@
 :root{
     --background-color-1: #000000;
     --background-color-2: #0b0b1f;
-    --main-bubble-color: rgb(32, 82, 53);
+    --main-bubble-color: rgba(32, 82, 53, 0.486);
     --main-bubble-color-transparent: rgba(54, 233, 128, 0.1);
     --active-bubble-color: rgba(255, 255, 255, 0.404);
     --side-bubble-color: rgb(52, 152, 219);
@@ -26,7 +26,7 @@ div{
     max-height: 100vh;
 }
 ::selection{
-    background-color: transparent
+    background-color: transparent;
 }
 #ripple-canvas{
     width: 100vw;
@@ -57,7 +57,7 @@ div{
 }
 .center-bubble{
     padding: 2rem;
-    background-color: var(--background-color);
+    background-color: var(--main-bubble-color);
     margin: auto;
     display: flex;
     justify-content: center;
@@ -98,7 +98,7 @@ div{
         pointer-events: none;
     }
     .active-bubble p{
-        font-size: 0.8rem;
+        font-size: 1rem;
         pointer-events: none;
     }
     .active-bubble:hover{
