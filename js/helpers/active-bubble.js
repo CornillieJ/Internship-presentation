@@ -2,6 +2,7 @@
 
 import * as UTILS from './utils.js';
 import * as CARDS from './cards.js';
+import * as ONBOARDING from './onboarding.js';
 import { FloatingBubble } from '../data/FloatingBubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
@@ -44,6 +45,7 @@ function onBubbleClick(e){
     if(activeBubble && activeBubble.contains(e.target)) return;
     if(isAnimating) return;
     isAnimating = true;
+    ONBOARDING.completeOnboarding();
 
     if(activeBubble){
         onActiveBubbleClick({currentTarget: document.querySelector('.overlay')}, false, true);

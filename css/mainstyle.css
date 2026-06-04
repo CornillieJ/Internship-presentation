@@ -526,6 +526,33 @@ span{
     object-fit: contain;
     height: 100%;
 }
+.onboarding{
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    animation: up-and-down-with-center 2s ease-in-out infinite;
+    z-index: 9999;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px black;
+}
+.onboarding ::after{
+    content: '';
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 30%;
+    right: 20%;
+    border-bottom: 10px double var(--accent-color);
+    border-right: 10px double var(--accent-color);
+    rotate: 45deg;
+    display: block;
+    font-size: 1rem;
+    text-shadow: 0 0 5px black;
+    margin-top: 1rem;
+    transform: skewY(-18deg) skewX(-20deg);
+}
 
 #team-image{
     width: 250%;
@@ -620,6 +647,9 @@ span{
     }
     .bubble-title{
         font-size: 0.6rem !important;
+    }
+    .onboarding, .onboarding::after{
+        display: none !important; 
     }
 }
 @media (max-height: 400px){
