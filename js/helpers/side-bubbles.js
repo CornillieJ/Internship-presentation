@@ -1,7 +1,7 @@
 'use strict';
 
 import * as UTILS from './utils.js';
-import { Bubble } from '../data/bubble.js';
+import { FloatingBubble } from '../data/FloatingBubble.js';
 
 export let sideBubbles = [];
 
@@ -16,6 +16,7 @@ export function layoutSideBubbles(){
     // layout the bubbles in a circle around the center bubble
     const centerX = 50;
     const centerY = 50;
+    const radiusOffset = window.innerWidth > 800 ? 30 : 1.5; // smaller offset on mobile for better fit
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
@@ -23,7 +24,7 @@ export function layoutSideBubbles(){
         const width = parseFloat(getComputedStyle(bubble).width);
         const height = parseFloat(getComputedStyle(bubble).height);
         const radius = Math.max(width, height) / 2;
-        const distanceFromCenter = radius - 30;
+        const distanceFromCenter = radius - radiusOffset;
 
         const angle = (index / amount) * 2 * Math.PI;
 
@@ -34,7 +35,7 @@ export function layoutSideBubbles(){
         y = y- (height / windowHeight) * 100 / 2; // Adjust y to center the bubble without transform
 
 
-        const bubbleObj = new Bubble(bubble, x, y);
+        const bubbleObj = new FloatingBubble(bubble, x, y);
         sideBubbles.push(bubbleObj);
 
         bubbleObj.gentlyFloatAround();

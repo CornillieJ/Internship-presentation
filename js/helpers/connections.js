@@ -5,6 +5,7 @@ let canvas, ctx;
 let centerNode;
 
 export function initialize() {
+    if(window.innerWidth < 600 || window.innerHeight < 400) return; // skip on mobile for visual reasons
     canvas = document.createElement('canvas');
     canvas.id = 'connections-canvas';
     canvas.style.position = 'absolute';

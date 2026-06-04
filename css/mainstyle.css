@@ -282,7 +282,7 @@ span{
         font-weight: bold;
         font-size: 1.5rem;
         text-shadow: 1px 1px 2px black;
-
+        pointer-events: auto !important;
     }
     .card-indicator-behind{
         opacity: 0.7;
@@ -379,6 +379,11 @@ span{
         color: white;
         cursor: alias;
         text-shadow: 0 0 5px var(--accent-color);
+    }
+    .referenced{
+        background: linear-gradient(135deg, var(--accent-color), var(--accent-color)) no-repeat !important;
+        animation: tech-pulse-with-center-x 1s ease-in-out infinite;
+        opacity: 0.8;
     }
 
 .placeholder-uefn {
@@ -537,13 +542,6 @@ span{
     height: 100%;
     object-fit: contain;
 }
-@media (max-width: 600px){
-    .side-bubble{
-        font-size: 0.6rem;
-    }
-}
-@media (min-width: 600px){
-}
 .leaf-1{
     clip-path: polygon(50% 0%, 75% 15%, 90% 40%, 75% 75%, 50% 100%, 25% 75%, 10% 40%, 25% 15%);
 }
@@ -555,4 +553,103 @@ span{
 }
 .gold{
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+}
+
+@media (max-width: 1200px), (max-height: 400px){
+    p,li{
+        font-size: 0.9rem !important;
+    }
+    span{
+        font-size: 1.1rem !important;
+    }
+    .side-bubble{
+        font-size: 0.6rem;
+    }
+    #player-hud, #weapons-hud{
+        display:none;
+    }
+    .active-bubble, .card-visual{
+        width: 90vw !important;
+        height: 80vh !important;
+        pointer-events: none !important;
+        /* backdrop-filter: blur(5px); */
+        /* -webkit-backdrop-filter: blur(5px); */
+    }
+    .card img{
+        display: none !important;
+    }
+    .overlay::after{
+        content: 'Press outside the card to close';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 15rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: grey;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    .card::after{
+        content: 'Press tabs to switch cards';
+        display: block;
+        position: absolute;
+        right: 0.5rem;
+        bottom: 3rem;
+        width: 15rem;
+        height: 3rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        color: grey;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    .card-indicator{
+        top:unset !important;
+        bottom:0 !important;
+        z-index: 9999 !important;
+    }
+    .split-pane{
+        grid-template-columns: 1fr !important;
+    }
+    .pane-left{
+        display: none !important;
+    }
+    .bubble-title{
+        font-size: 0.6rem !important;
+    }
+}
+@media (max-height: 400px){
+    p,li{
+        font-size: 0.7rem !important;
+    }
+    span{
+        font-size: 0.9rem !important;
+    }
+    .active-bubble, .card-visual{
+        width: 70vw !important;
+        pointer-events: none !important;
+        overflow: auto !important;
+    }
+    .card, .pane-right{
+        overflow: auto !important;
+    }
+    .side-bubble{
+        scale: 0.7;
+    }
+    .inactive-bubble-left{
+        scale:0.5;
+        left:5% !important;
+    }
+    .inactive-bubble-right{
+        scale:0.5;
+        left:90% !important;
+    }
+}
+@media (min-width: 600px){
+
 }

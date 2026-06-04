@@ -2,7 +2,7 @@
 
 import * as UTILS from './utils.js';
 import * as CARDS from './cards.js';
-import { Bubble } from '../data/bubble.js';
+import { FloatingBubble } from '../data/FloatingBubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
 let centerBubble, centerSpan;
@@ -173,7 +173,7 @@ function animateRelatedBubble(text){
         return title.innerText.toLowerCase().includes(text.toLowerCase());
     });
     if(relatedBubble){
-        relatedBubble.element.style.animation = 'tech-pulse-with-center-x 1s ease-in-out infinite';
+        relatedBubble.classList.add('referenced');
     }
 }
 function stopAnimateRelatedBubble(text){
@@ -182,8 +182,7 @@ function stopAnimateRelatedBubble(text){
         return title.innerText.toLowerCase().includes(text.toLowerCase());
     });
     if(relatedBubble){
-        relatedBubble.element.style.animation = '';
-        relatedBubble.element.style.color = '';
+        relatedBubble.classList.remove('referenced');
     }
 }
 // #endregion Helpers

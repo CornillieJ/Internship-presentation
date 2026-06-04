@@ -51,6 +51,15 @@ class BubbleWithCard{
                 if(e.deltaY > 0) this.activateNextCard();
                 else if(e.deltaY < 0) this.activatePreviousCard();
             });
+            wrapper.addEventListener('touchmove', (e) => {
+                const debounceTimeInMs = this.animateTimeInMs / (this.wrappers.length - 1);
+                e.preventDefault();
+                if(this.lastWheelTime + debounceTimeInMs > Date.now()) return;
+                this.lastWheelTime = Date.now();
+                if(this.isAnimating) return;
+                if(e.deltaY > 0) this.activateNextCard();
+                else if(e.deltaY < 0) this.activatePreviousCard();
+            })
         });
         this.activateNextCard();
     }
@@ -204,6 +213,12 @@ class BubbleWithCard{
             if(this.cards[index] && this.cards[index].id) indicator.innerText = this.cards[index].id;
             wrapperDiv.appendChild(indicator);
             this.indicators.push(indicator);
+            indicator.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if(this.isAnimating) return;
+                if(this.activeCardIndex === index) this.activateNextCard();
+                this.activateCard(index);
+            });
         }
     }
 }

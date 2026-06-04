@@ -1,6 +1,6 @@
 import * as UTILS from '../helpers/utils.js';
 
-export class Bubble {
+export class FloatingBubble {
     element = null;
     width = 0;
     height = 0;
