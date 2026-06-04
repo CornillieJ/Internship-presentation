@@ -6,9 +6,11 @@ class BubbleWithCard{
     cards = [];
     wrappers = [];
     activeCardIndex = -1;
-    offset = 20;
     isActive = false;
     indicators = [];
+    isAnimating = false;
+    animateTimeInMs = 200; //ms
+    lastWheelTime = 0;
 
     constructor(bubbleElement){
         this.bubbleElement = bubbleElement;
@@ -16,19 +18,17 @@ class BubbleWithCard{
         window.addEventListener('resize', () =>{if(this.isActive) this.reactivateBubble()});
     }
 
-    reactivateBubble(){
-        this.deactivateBubble();
-        this.activateBubble();
-    }
+    getBubbleLeft(){ return this.bubbleElement.getBoundingClientRect().left; }
+    getBubbleTop(){ return this.bubbleElement.getBoundingClientRect().top; }
+    getBubbleWidth(){ return this.bubbleElement.getBoundingClientRect().width; }
+    getBubbleHeight(){return this.bubbleElement.getBoundingClientRect().height; }
+
     activateBubble(){
         this.isActive = true;
         this.cards.forEach((card, index) => {
             card.classList.remove('hidden');
             const wrapperDiv = document.createElement('div');
-            const indicator = document.createElement('div');
-            indicator.classList.add('card-indicator');
-            indicator.style.backgroundColor = UTILS.getRandomColorWithSeed(index);
-            wrapperDiv.appendChild(indicator);
+            this.createIndicator(index, wrapperDiv);
             wrapperDiv.appendChild(card);
             wrapperDiv.classList.add('card-visual');
             wrapperDiv.style.position = 'absolute';
@@ -38,21 +38,19 @@ class BubbleWithCard{
             wrapperDiv.style.height = `${this.getBubbleHeight()}px`;
             this.bubbleElement.parentElement.append(wrapperDiv);
             this.wrappers.push(wrapperDiv);
-            this.indicators.push(indicator);
         });
-        this.wrappers.forEach((card, index) => {
-            card.addEventListener('wheel', (e) => {
-                // if(e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 5 && e.deltaY > 0){
-                if(e.deltaY > 0){
-                    this.activateNextCard();
-                }
-                // else if(e.target.scrollTop <= 5 && e.deltaY < 0){
-                else if(e.deltaY < 0){
-                    this.activatePreviousCard();
-                }
+        this.wrappers.forEach((wrapper, index) => {
+            wrapper.addEventListener('wheel', (e) => {
+                const debounceTimeInMs = this.animateTimeInMs / (this.wrappers.length - 1);
+                e.preventDefault();
+                if(this.lastWheelTime + debounceTimeInMs > Date.now()) return;
+                this.lastWheelTime = Date.now();
+                if(this.isAnimating) return;
+                if(e.deltaY > 0) this.activateNextCard();
+                else if(e.deltaY < 0) this.activatePreviousCard();
             });
         });
-        this.activateFirstCard();
+        this.activateNextCard();
     }
 
     deactivateBubble(){
@@ -67,56 +65,77 @@ class BubbleWithCard{
         this.indicators = [];
         this.deactivateCards();
     }
+    reactivateBubble(){
+        this.deactivateBubble();
+        this.activateBubble();
+    }
 
-    activateCard(index){
+    activateCard(index, direction = 1){
+        if(this.isAnimating) return;
         index = ((index % this.cards.length) + this.cards.length) % this.cards.length; // Handle negative indices
-        console.log(`Activating card ${index} of bubble with title: ${this.bubbleElement.querySelector('.bubble-title').textContent}`);
-        const amount = this.wrappers.length;
-        this.wrappers.forEach((card, i) => {
-            if(i === index){
-                this.animateCardToBubble(card,()=>{
-                    this.indicators[i].classList.remove('card-indicator-behind');
-                    card.classList.remove('card-visual-behind');
-                    card.classList.remove('hidden-children');
-                });
-                card.parentElement.appendChild(card);
-            }
-            else{
-                card.classList.add('hidden-children');
-                card.classList.add('card-visual-behind');
-                this.indicators[i].classList.add('card-indicator-behind');
-                card.style.top = `${50 + (i + amount - index) % amount}%`;
-                card.style.left = `${50 + (i  + amount - index) % amount}%`;
-            }
+        let targetLeft = direction < 1 ? 51 : 50 + this.wrappers.length;
+        let targetTop = direction < 1 ? 51 : 50 + this.wrappers.length;
+
+        const lastActive = this.wrappers[this.activeCardIndex];
+        if(lastActive){
+            console.log(`Animating last active card to left: ${targetLeft}, top: ${targetTop}`);
+            console.log(`direction: ${direction}`);
+            this.animateCard(lastActive, ()=>{
+                this.deactivateOtherCards(index);
+                console.log(`Finished animating last active card to left: ${targetLeft}, top: ${targetTop}`);
+            }, targetLeft, targetTop);
+        }
+
+        const newActive = this.wrappers[index]
+        this.animateCard(newActive, ()=>{
+            if(this.indicators[index]) this.indicators[index].classList.remove('card-indicator-behind');
+            newActive.classList.remove('card-visual-behind');
+            newActive.classList.remove('hidden-children');
         });
+
+        newActive.parentElement.appendChild(newActive);
+        this.activeCardIndex = index;
+
+        this.reorderCards();
+    }
+    deactivateOtherCards(activeIndex){
+        this.wrappers.forEach((wrapper, i) => {
+            if(i === activeIndex) return;
+            wrapper.classList.add('hidden-children');
+            wrapper.classList.add('card-visual-behind');
+            this.indicators[i].classList.add('card-indicator-behind');
+            wrapper.style.top = `${50 + (i + this.wrappers.length - activeIndex) % this.wrappers.length}%`;
+            wrapper.style.left = `${50 + (i  + this.wrappers.length - activeIndex) % this.wrappers.length}%`;
+        });
+    }
+    reorderCards(){
         const newSortedWrappers = Array.from(this.wrappers).sort((a, b) => {
             const aIndex = this.wrappers.indexOf(a);
             const bIndex = this.wrappers.indexOf(b);
-            return ((bIndex - index + amount) % amount) - ((aIndex - index + amount) % amount);
+            return ((bIndex - this.activeCardIndex + this.wrappers.length) % this.wrappers.length) 
+                    - 
+                    ((aIndex - this.activeCardIndex + this.wrappers.length) % this.wrappers.length);
         });
         newSortedWrappers.forEach(wrapper => wrapper.parentElement.appendChild(wrapper));
-        this.activeCardIndex = index;
-    }
-    activateFirstCard(){
-        this.activateCard(0);
     }
     activateNextCard(){
         if(this.cards.length <= 1) return;
         if(this.activeCardIndex === -1){
-            this.activateFirstCard();
+            this.activateCard(0);
             return;
         }
         const nextIndex = (this.activeCardIndex + 1) % this.cards.length;
-        this.activateCard(nextIndex);
+        this.activateCard(nextIndex, 1);
         this.activeCardIndex = nextIndex;
     }
+
     activatePreviousCard(){
         if(this.activeCardIndex === -1){
-            this.activateFirstCard();
+            this.activateCard(0);
             return;
         }
         const prevIndex = (this.activeCardIndex - 1 + this.cards.length) % this.cards.length;
-        this.activateCard(prevIndex);
+        this.activateCard(prevIndex, -1);
         this.activeCardIndex = prevIndex;
     }
     deactivateCards(){
@@ -126,39 +145,64 @@ class BubbleWithCard{
         });
         this.activeCardIndex = -1;
     }
-    getBubbleLeft(){
-        return this.bubbleElement.getBoundingClientRect().left;
-    }
-    getBubbleTop(){
-        return this.bubbleElement.getBoundingClientRect().top;
-    }
-    getBubbleWidth(){
-        return this.bubbleElement.getBoundingClientRect().width;
-    }
-    getBubbleHeight(){
-        return this.bubbleElement.getBoundingClientRect().height;
-    }
-    animateCardToBubble(card, OnComplete){
-        console.log(`Animating card to bubble with title: ${this.bubbleElement.querySelector('.bubble-title').textContent}`);
-        let currentLeft = parseFloat(card.style.left);
-        let currentTop = parseFloat(card.style.top);
-        const targetLeft = 50;
-        const targetTop = 50;
+
+    animateCard(card, OnComplete, targetLeft = 50, targetTop = 50){
+        console.log(`Animating card to left: ${targetLeft}, top: ${targetTop}`);
+        this.isAnimating = true;
+        let currentLeft = parseFloat(card.style.left) || 50;
+        let currentTop = parseFloat(card.style.top) || 50;
+        const distance = Math.sqrt((targetLeft - currentLeft) ** 2 + (targetTop - currentTop) ** 2);
         const step = 0.1;
+        const intervalTime = this.animateTimeInMs / (distance / step);
+
+        const OnFinished = ()=>{
+            card.style.left = '';
+            card.style.top = '';
+            clearInterval(interval);
+            clearTimeout(emergencyStop);
+            if (OnComplete) OnComplete();
+            this.isAnimating = false;
+        }
+
+
         const interval = setInterval (() => {
-            currentLeft = parseFloat(card.style.left);
-            currentTop = parseFloat(card.style.top);
-            if(Math.abs(currentLeft - targetLeft) < 0.5 && Math.abs(currentTop - targetTop) < 0.5){
-                card.style.left =''
+            currentLeft = parseFloat(card.style.left) || 50;
+            currentTop = parseFloat(card.style.top) || 50;
+            if(Math.abs(currentLeft - targetLeft) < 1 && Math.abs(currentTop - targetTop) < 1){
+                card.style.left = '';
                 card.style.top = '';
                 clearInterval(interval);
+                clearTimeout(emergencyStop);
                 if (OnComplete) OnComplete();
+                this.isAnimating = false;
+                return;
             }
             else{
                 card.style.left = `${currentLeft + (targetLeft - currentLeft) * step}%`;
                 card.style.top = `${currentTop + (targetTop - currentTop) * step}%`;
             }
-        },20);
+        }, intervalTime);
+
+        const emergencyStop = setTimeout(() => {
+            console.warn('Emergency stop triggered for card animation');
+            card.style.left = '';
+            card.style.top = '';
+            clearInterval(interval);
+            clearTimeout(emergencyStop);
+            if (OnComplete) OnComplete();
+            this.isAnimating = false;
+            return;
+        }, this.animateTimeInMs * 5);
+    }
+
+    createIndicator(index, wrapperDiv) {
+        if (this.cards.length > 1) {
+            const indicator = document.createElement('div');
+            indicator.classList.add('card-indicator');
+            indicator.style.backgroundColor = UTILS.getRandomColorWithSeed(index);
+            wrapperDiv.appendChild(indicator);
+            this.indicators.push(indicator);
+        }
     }
 }
 
