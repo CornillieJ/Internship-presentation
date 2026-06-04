@@ -30,6 +30,12 @@ export function getRandomColor(minColor, maxColor) {
     const b = getRandomInt(minColor.b, maxColor.b);
     return `rgb(${r}, ${g}, ${b})`;
 }
+export function getRandomColorWithSeed(seed) {
+    const r = (seed * 54145 + 125) % 256;
+    const g = (seed * 7656887 + 125) % 256;
+    const b = (seed * 8478316 + 200) % 256;
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 export function getMouseMovement(e){
     if(typeof getMouseMovement.lastX === 'undefined'){

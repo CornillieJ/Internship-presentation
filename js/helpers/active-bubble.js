@@ -1,6 +1,7 @@
 'use strict';
 
 import * as UTILS from './utils.js';
+import * as CARDS from './cards.js';
 import { Bubble } from '../data/bubble.js';
 import { sideBubbles } from './side-bubbles.js';
 
@@ -18,10 +19,26 @@ export function initialize(){
     sideBubbles.forEach(bubble => {
         bubble.element.addEventListener('click', onBubbleClick);
     });
+    const references = document.querySelectorAll('.reference');
+    references.forEach(ref => {
+        ref.addEventListener('mouseover', () => {
+            const text = ref.textContent || ref.innerText;
+            console.log(`Hovering over reference: ${text}`);
+            animateRelatedBubble(text);
+        });
+        ref.addEventListener('mouseout', () => {
+            const text = ref.textContent || ref.innerText;
+            stopAnimateRelatedBubble(text);
+        });
+        ref.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    });
 }
 
 function onBubbleClick(e){
     if(e.target === activeBubble) return;
+    if(activeBubble && activeBubble.contains(e.target)) return;
     if(isAnimating) return;
     isAnimating = true;
 
@@ -35,6 +52,11 @@ function onBubbleClick(e){
     }
 
     activeBubble = e.currentTarget;
+    if(activeBubble && !activeBubble.classList.contains('bubble')){
+        activeBubble = activeBubble.closest('.bubble');
+    }
+
+
     const foundBubble = sideBubbles.find(b => b.element === activeBubble);
     if(foundBubble) foundBubble.stopMovement(true);
     if(!activeBubble) activeBubble = e.target;
@@ -57,14 +79,15 @@ function onBubbleClick(e){
 
     setTimeout(() => {
         activeBubble.classList.add('active-bubble');
+        activeBubble.classList.add('blur');
         activeBubble.classList.remove('activating-bubble');
-        centerSpan.classList.add('right');
         animateSideBubbles();
         
         splitPanes.forEach(p => {
             p.style.animation = '';
             p.classList.remove('hidden');
         });
+        CARDS.activateBubble(activeBubble);
         clearAnimations();
         isAnimating = false;
     }, animationTime * 1000);
@@ -79,8 +102,9 @@ function onBubbleClick(e){
 function onActiveBubbleClick(e, resetSideBubbles = true, overrideAnimatingCheck = false){
     if(isAnimating && !overrideAnimatingCheck) return;
     isAnimating = true;
-    centerSpan.classList.remove('right');
+    CARDS.deactivateBubble(activeBubble);
     activeBubble.classList.remove('active-bubble');
+    activeBubble.classList.remove('blur');
     e.currentTarget.remove();
     clearAnimations();
     if(activeBubble === centerBubble)
@@ -142,4 +166,23 @@ function animateSideBubbles(){
 
             bubble.setPosition(xPosition, yPosition);
         });
+}
+function animateRelatedBubble(text){
+    const relatedBubble = sideBubbles.find(b => {
+        const title = b.element.querySelector('.bubble-title');
+        return title.innerText.toLowerCase().includes(text.toLowerCase());
+    });
+    if(relatedBubble){
+        relatedBubble.element.style.animation = 'tech-pulse-with-center-x 1s ease-in-out infinite';
+    }
+}
+function stopAnimateRelatedBubble(text){
+    const relatedBubble = sideBubbles.find(b => {
+        const title = b.element.querySelector('.bubble-title');
+        return title.innerText.toLowerCase().includes(text.toLowerCase());
+    });
+    if(relatedBubble){
+        relatedBubble.element.style.animation = '';
+        relatedBubble.element.style.color = '';
+    }
 }
