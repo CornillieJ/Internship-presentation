@@ -173,7 +173,7 @@ function animateRelatedBubble(text){
         return title.innerText.toLowerCase().includes(text.toLowerCase());
     });
     if(relatedBubble){
-        relatedBubble.classList.add('referenced');
+        relatedBubble.element.classList.add('referenced');
     }
 }
 function stopAnimateRelatedBubble(text){
@@ -182,7 +182,7 @@ function stopAnimateRelatedBubble(text){
         return title.innerText.toLowerCase().includes(text.toLowerCase());
     });
     if(relatedBubble){
-        relatedBubble.classList.remove('referenced');
+        relatedBubble.element.classList.remove('referenced');
     }
 }
 // #endregion Helpers

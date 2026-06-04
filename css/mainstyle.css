@@ -382,7 +382,7 @@ span{
     }
     .referenced{
         background: linear-gradient(135deg, var(--accent-color), var(--accent-color)) no-repeat !important;
-        animation: tech-pulse-with-center-x 1s ease-in-out infinite;
+        animation: tech-pulse-with-center-x 1s ease-in-out infinite !important;
         opacity: 0.8;
     }
 
@@ -488,6 +488,7 @@ span{
     z-index: 3;
     cursor: pointer;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 .hidden{
     display: none;
@@ -590,8 +591,6 @@ span{
         justify-content: center;
         align-items: center;
         color: grey;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
     }
     .card::after{
         content: 'Press tabs to switch cards';
