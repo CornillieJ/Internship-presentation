@@ -199,7 +199,7 @@ class BubbleWithCard{
         if (this.cards.length > 1) {
             const indicator = document.createElement('div');
             indicator.classList.add('card-indicator');
-            indicator.style.backgroundColor = UTILS.getRandomColorWithSeed(index);
+            indicator.style.backgroundColor = UTILS.makeColorPastel(UTILS.getRandomColorWithSeed(index));
             wrapperDiv.appendChild(indicator);
             this.indicators.push(indicator);
         }

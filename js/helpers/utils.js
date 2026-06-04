@@ -36,6 +36,10 @@ export function getRandomColorWithSeed(seed) {
     const b = (seed * 8478316 + 200) % 256;
     return `rgb(${r}, ${g}, ${b})`;
 }
+export function makeColorPastel(color) {
+    const [r, g, b] = color.match(/\d+/g).map(Number);
+    return `rgb(${Math.min(255, r + 50)}, ${Math.min(255, g + 50)}, ${Math.min(255, b + 50)})`;
+}
 
 export function getMouseMovement(e){
     if(typeof getMouseMovement.lastX === 'undefined'){
