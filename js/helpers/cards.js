@@ -26,11 +26,13 @@ class BubbleWithCard{
     activateBubble(){
         this.isActive = true;
         this.cards.forEach((card, index) => {
-            card.classList.remove('hidden');
             const wrapperDiv = document.createElement('div');
             this.createIndicator(index, wrapperDiv);
             wrapperDiv.appendChild(card);
+            card.classList.remove('hidden');
             wrapperDiv.classList.add('card-visual');
+            wrapperDiv.classList.add('hidden-children');
+            wrapperDiv.classList.add('card-visual-behind');
             wrapperDiv.style.position = 'absolute';
             wrapperDiv.style.left = `${50 + index}%`;
             wrapperDiv.style.top = `${50 + index}%`;
@@ -119,7 +121,6 @@ class BubbleWithCard{
         newSortedWrappers.forEach(wrapper => wrapper.parentElement.appendChild(wrapper));
     }
     activateNextCard(){
-        if(this.cards.length <= 1) return;
         if(this.activeCardIndex === -1){
             this.activateCard(0);
             return;
@@ -200,6 +201,7 @@ class BubbleWithCard{
             const indicator = document.createElement('div');
             indicator.classList.add('card-indicator');
             indicator.style.backgroundColor = UTILS.makeColorPastel(UTILS.getRandomColorWithSeed(index));
+            if(this.cards[index] && this.cards[index].id) indicator.innerText = this.cards[index].id;
             wrapperDiv.appendChild(indicator);
             this.indicators.push(indicator);
         }

@@ -39,6 +39,20 @@ div{
 span{
     pointer-events: none;
 }
+.intro-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+    .intro-title::after{
+        content: '';
+        display: block;
+        width: 80%;
+        height: 2px;
+        background-color: var(--accent-color);
+        margin: 0.5rem auto 0 auto;
+    }
 /* Gamer HUD styling */
 #player-hud {
     position: fixed;
@@ -263,6 +277,12 @@ span{
         height: 2.5rem;
         border-radius: 0 0 10px 10px;
         box-shadow: 1px 1px 1px black;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-shadow: 1px 1px 2px black;
+
     }
     .card-indicator-behind{
         opacity: 0.7;
