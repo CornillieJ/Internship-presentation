@@ -525,6 +525,9 @@ span{
     border-radius: 4px;
     object-fit: contain;
     height: 100%;
+    max-width: 100%;
+    margin: auto;
+    object-fit: fill;
 }
 .onboarding{
     position: absolute;
@@ -539,11 +542,11 @@ span{
 }
 .onboarding ::after{
     content: '';
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     position: absolute;
     top: 30%;
-    right: 20%;
+    right: 25%;
     border-bottom: 10px double var(--accent-color);
     border-right: 10px double var(--accent-color);
     rotate: 45deg;
@@ -553,22 +556,25 @@ span{
     margin-top: 1rem;
     transform: skewY(-18deg) skewX(-20deg);
 }
+.reset-onboarding{
+    z-index: 6;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    cursor: pointer;
+}
+    .reset-onboarding:hover{
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+        text-shadow: 0 0 5px white;
+    }
 
-#team-image{
-    width: 250%;
-    height: 100%;
-    margin: auto;
-    object-fit: fill;
-}
-#experimental-image{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-#tycoon-image{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+#team-image, #team-banner, #experimental-image, #tycoon-image{
 }
 .leaf-1{
     clip-path: polygon(50% 0%, 75% 15%, 90% 40%, 75% 75%, 50% 100%, 25% 75%, 10% 40%, 25% 15%);
@@ -643,7 +649,9 @@ span{
         grid-template-columns: 1fr !important;
     }
     .pane-left{
-        display: none !important;
+        position: relative;
+        overflow: hidden !important;
+        z-index: 4;
     }
     .bubble-title{
         font-size: 0.6rem !important;
@@ -666,6 +674,7 @@ span{
     }
     .card, .pane-right{
         overflow: auto !important;
+        z-index: 5;
     }
     .side-bubble{
         scale: 0.7;

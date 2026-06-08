@@ -9,6 +9,7 @@
     <script src="./js/main.js" type="module" defer></script>
 </head>
 <body>
+    <button class="reset-onboarding">Reset Onboarding</button>
     <canvas id="ripple-canvas"></canvas>
     <div class="background-bubbles-container"></div>
     
@@ -37,7 +38,7 @@
             <div class="card hidden" id="General">
                 <div class="split-pane">
                     <div class="pane-left placeholder-team">
-                        <img src="./img/tu.png" alt="Team Unite Logo" class="pane-image" id="team-image">
+                        <img src="./img/tu-banner-vertical.png" alt="Team Unite Logo" class="pane-image" id="team-banner">
                     </div>
                     <div class="pane-right">
                         <img src="./img/tu-logo.webp" alt="Team Unite Logo" class="team-logo">
@@ -55,6 +56,7 @@
             <div class="card hidden" id="portfolio">
                 <div class="split-pane">
                     <div class="pane-left placeholder-team">
+                        <img src="./img/portfolio.png" alt="Team Unite Logo" class="pane-image" id="team-image">
                     </div>
                     <div class="pane-right">
                         <p class="intro-title">Enkele eigen projecten van Team Unite (niet branded):</p>
@@ -71,6 +73,7 @@
             <div class="card hidden" id="team">
                 <div class="split-pane">
                     <div class="pane-left placeholder-team">
+                        <img src="./img/tu-team-vertical.png" alt="Team Unite Logo" class="pane-image" id="team-image">
                     </div>
                     <div class="pane-right">
                         <p class="intro-title">De leden van het team waar ik mee werkte:</p>
@@ -88,12 +91,13 @@
             <div class="card hidden" id="CEO">
                 <div class="split-pane">
                     <div class="pane-left placeholder-team">
+                        <img src="./img/ceo.png" alt="Team Unite Logo" class="pane-image" id="team-image">
                     </div>
                     <div class="pane-right">
                         <p class="intro-title">CEO van Team Unite en mijn stagementor:</p>
                         <ul>
                             <li><b>Hannes</b> - CEO van Team Unite.</li>
-                            <li>Ervaren leider met passie voor gamedev.</li>
+                            <li>Ervaren developer met passie voor gamedev.</li>
                             <li>Ondersteunend, inspirerend en altijd beschikbaar voor vragen.</li>
                         </ul>
                     </div>
@@ -103,12 +107,13 @@
         
         <div class="side-bubble bubble" id="side-bubble-3">
             <span class="bubble-title">UEFN</span>
-            <div class="card hidden">
+            <div class="card hidden" id="General">
                 <div class="split-pane">
                     <div class="pane-left placeholder-uefn-logo">
-                        <img src="./img/uefn.jpg" alt="UEFN Logo" class="pane-image">
+                        <img src="./img/uefn-logo.png" alt="UEFN Logo" class="pane-image">
                     </div>
                     <div class="pane-right">
+                        <p class="intro-title">Wat is UEFN?</p>
                         <ul>
                             <li>Unreal Engine for Fortnite.</li>
                             <li>Professionele engine voor het Fortnite ecosystem.</li>
@@ -118,20 +123,88 @@
                     </div>
                 </div>
             </div>
+            <div class="card hidden" id="editor">
+                <div class="split-pane">
+                    <div class="pane-left placeholder-uefn-logo">
+                        <img src="./img/uefn-editor.png" alt="UEFN Logo" class="pane-image">
+                    </div>
+                    <div class="pane-right">
+                        <p class="intro-title">Werken met de UEFN editor.</p>
+                        <ul>
+                            <li>Complexe editor met veel features.</li>
+                            <li>Veel tools, maar ook veel complexiteit.</li>
+                            <li>Steile leercurve, maar krachtige mogelijkheden.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card hidden" id="publishing">
+                <div class="split-pane">
+                    <div class="pane-left placeholder-uefn-logo">
+                        <img src="./img/uefn.png" alt="UEFN Logo" class="pane-image">
+                    </div>
+                    <div class="pane-right">
+                        <p class="intro-title">Publiceren in fortnite ecosysteem.</p>
+                        <ul>
+                            <li>Direct publiceren naar Fortnite.</li>
+                            <li>Toegang tot miljoenen spelers wereldwijd.</li>
+                            <li>Unieke kans om een game te maken voor een enorm publiek.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="side-bubble bubble" id="side-bubble-6">
             <span class="bubble-title">Verse</span>
-            <div class="card hidden">
+            <div class="card hidden" id="General">
                 <div class="split-pane hidden">
-                    <div class="pane-left placeholder-verse"></div>
+                    <div class="pane-left placeholder-verse">
+                        <img src="./img/verse-hello-world.png" alt="Verse code" class="pane-image">
+                    </div>
                     <div class="pane-right">
+                        <p class="intro-title">Verse, de nieuwe programmeertaal van Epic Games.</p>
                         <ul>
                             <li>Nieuwe programmeertaal van Epic Games.</li>
                             <li>Specifiek voor game development.</li>
                             <li>Innovatief, uitdagend & functioneel.</li>
+                            <li>Niet tick-based programming.</li>
                             <li>Weinig documentatie, veel experimenteren.</li>
                             <li>Epic's focus: Unreal Engine 6 zal met Verse werken.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card hidden" id="Strengths">
+                <div class="split-pane hidden">
+                    <div class="pane-left placeholder-verse">
+                        <img src="./img/verse-race.png" alt="Verse code" class="pane-image">
+                    </div>
+                    <div class="pane-right">
+                        <p class="intro-title">Sterktes van Verse</p>
+                        <ul>
+                            <li>Specifiek ontworpen voor game development.</li>
+                            <li>Failure context, rollbacks, en atomaire functies. (geen race conditions)</li>
+                            <li>Innovatieve benadering van 'concurrency'. (block, sync, race, rush, branch)</li>
+                            <li>Taal met veel toekomst. -> wordt geïntegreerd in Unreal Engine 6</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card hidden" id="Challenges">
+                <div class="split-pane hidden">
+                    <div class="pane-left placeholder-verse">
+                        <img src="./img/verse-utilities-2.png" alt="Verse code" class="pane-image">
+                    </div>
+                    <div class="pane-right">
+                        <p class="intro-title">Uitdagingen van Verse</p>
+                        <ul>
+                            <li>Beperkte documentatie en community ondersteuning.</li>
+                            <li>Steile leercurve voor ontwikkelaars.</li>
+                            <li>Beperkte tooling en debug mogelijkheden.</li>
+                            <li>Geen 'Batteries included', dus alle eenvoudige functionaliteiten (zoals Split, ToLower, Trim) moeten zelf worden geïmplementeerd.</li>
+                            <li>Beperkte syntax support (geen auto-completion). Dus veel handmatig opzoek werk.</li>
+                            <li>AI kent de taal helemaal niet.</li>
                         </ul>
                     </div>
                 </div>
@@ -140,14 +213,61 @@
         
         <div class="side-bubble bubble" id="side-bubble-5"  >
             <span class="bubble-title">Wie ben ik?</span>
-            <div class="card hidden">
+            <div class="card hidden" id="General">
                 <div class="split-pane">
                     <div class="pane-left placeholder-me"></div>
                     <div class="pane-right">
+                        <p class="intro-title">Even voorstellen:</p>
                         <ul>
                             <li><b>Jeffrey Cornillie</b>, 33 jaar.</li>
                             <li>Passie voor code & probleemoplossing.</li>
                             <li>Altijd op zoek naar nieuwe uitdagingen.</li>
+                            <li>Geef steeds 110%.</li>
+                            <li>Opleiding gecombineerd met full-time weekendwerk bij Alpro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card hidden" id="Development">
+                <div class="split-pane">
+                    <div class="pane-left placeholder-me"></div>
+                    <div class="pane-right">
+                        <p class="intro-title">Wat heb ik gemaakt?</p>
+                        <p>PE's tijdens de opleiding.</p>
+                        <ul>
+                            <li><a href="https://cornilliej.github.io/StelJezelfVoor/">Stel Jezelf Voor</a> - Frontend basics</li>
+                            <li><a href="https://cornilliej.github.io/FavorietSpel/">Favoriet Spel</a> - Frontend basics</li>
+                            <li><a href="https://cornilliej.github.io/HowestFinder/">Howest Finder</a> - Frontend Advanced</li>
+                            <li><a href="https://howestwebshop.runasp.net/">Howest Webshop</a> - Web Backend</li>
+                            <li><a href="https://howest-planetscape.runasp.net/">PlanetScape</a> - Integration, identity</li>
+                        </ul>
+                        <ul>
+                            <li><a href="https://cornilliej.github.io/Chess/">Schaak</a> - mezelf Javascript aanleren</li>
+                            <li><a href="https://github.com/CornillieJ/KBGlance">KBGlance</a> - Een tool voor het visualiseren van je keyboard wanneer je een nieuwe layout aan het leren bent</li>
+                            <li><a href="https://cornilliej.github.io/Threejs_earth/">Three.js Aarde</a> - Mezelf Three.js aanleren</li>
+                        </ul>
+                        <ul>
+                            <li><a href="https://cornilliej.github.io/Dichotomy/">Dichotomy</a> - Een VR ervaring die je bewust maakt van de problemen van politiek zwart-wit denken</li>
+                            <li><a href="https://fortnite.gg/creator/teamunite">Construction Tycoon</a> - Dit stage project</li>
+</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card hidden" id="Future">
+                <div class="split-pane">
+                    <div class="pane-left placeholder-me"></div>
+                    <div class="pane-right">
+                        <p class="intro-title">Toekomst:</p>
+                        <ul>
+                            <li>Job aangeboden gekregen door KU Leuven - Vlaamse Wiskunde Olympiade - Full stack Developer / allround IT</li>
+                                <ul>
+                                    <li>PHP Laravel backend development van tools voor docenten en studenten</li>
+                                    <li>Vue Frontend development van vlaamse wiskunde olympiade applicatie</li>
+                                    <li>Bewaken van de performantie van onze systemen via loadtesten</li>
+                                    <li>Aanspreekpunt voor de IT-dienst van KU Leuven</li>
+                                </ul>
+                            <li>Job bij Team Unite als Contract Developer voor meewerken aan toekomstige games op projectbasis</li>
                         </ul>
                     </div>
                 </div>
