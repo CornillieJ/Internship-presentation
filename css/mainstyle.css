@@ -576,6 +576,13 @@ span{
 
 #team-image, #team-banner, #experimental-image, #tycoon-image{
 }
+
+#Development-1 li{
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+
 .leaf-1{
     clip-path: polygon(50% 0%, 75% 15%, 90% 40%, 75% 75%, 50% 100%, 25% 75%, 10% 40%, 25% 15%);
 }

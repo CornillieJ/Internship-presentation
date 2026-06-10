@@ -8,13 +8,6 @@ const color1 = { r: 185, g: 2, b: 250 };
 const color2 = { r: 5, g: 198, b: 252 };
 
 
-function onMouseMove(e){
-    const bubbles = document.querySelectorAll('.background-bubble');
-    for(const bubble of bubbles){
-        avoidMouse(bubble, e.clientX, e.clientY);
-    }
-}
-
 export function createBackgroundBubbles(){
     const container = document.querySelector('.background-bubbles-container');
     for(let i = 0; i < 40; i++){

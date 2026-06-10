@@ -42,8 +42,9 @@ Ripple.prototype = {
       ${Math.floor(rippleSettings.strokeColor[1])},
       ${Math.floor(rippleSettings.strokeColor[2])},
       ${this.opacity})`;
-    if(this.opacity >= rippleSettings.maxOpacityForMouseAvoidance) 
+    if(this.opacity >= rippleSettings.maxOpacityForMouseAvoidance && frameCount % 2 === 0){
       BACKGROUND.avoidPosition(this.position.x, this.position.y, this.circleSize);
+    }
   },
   draw: function draw() {
     this.ctx.beginPath();
@@ -62,6 +63,7 @@ let canvas;
 let ctx;
 let ripples = [];
 let currentCircleSize = 0;
+let frameCount = 0;
 
 export function initialize() {
   canvas = document.querySelector('#ripple-canvas');
@@ -114,5 +116,7 @@ const animation = () => {
       ripples.pop();
     }
   }
+  frameCount++;
+  if(frameCount > 10000) frameCount = 0;
   animationFrame = window.requestAnimationFrame(animation);
 };
