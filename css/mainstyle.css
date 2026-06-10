@@ -397,10 +397,14 @@ span{
         justify-content: center;
         overflow-y: auto;
     }
-    .pane-right ul {
+    .pane-right > ul {
         list-style: none;
         padding: 0;
         margin: 0;
+    }
+    .pane-right ul ul{
+        list-style: none;
+
     }
     .pane-right li {
         margin-bottom: 1.2rem;
@@ -409,8 +413,16 @@ span{
         position: relative;
         padding-left: 1.5rem;
     }
-    .pane-right li::before {
+    .pane-right > ul > li::before {
         content: '►';
+        position: absolute;
+        left: 0;
+        color: var(--main-bubble-color);
+        font-size: 0.8em;
+        top: 0.2rem;
+    }
+    .pane-right > ul > ul > li::before {
+        content: '▸';
         position: absolute;
         left: 0;
         color: var(--main-bubble-color);
