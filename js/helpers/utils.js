@@ -52,3 +52,11 @@ export function getMouseMovement(e){
     const deltaY = e.clientY - getMouseMovement.lastY;
     return { x: deltaX, y: deltaY };
 }
+export function isDescendentOfClass(element, className){
+    let currentElement = element;
+    while(currentElement){
+        if(currentElement.classList && currentElement.classList.contains(className)) return true;
+        currentElement = currentElement.parentElement;
+    }
+    return false;
+}

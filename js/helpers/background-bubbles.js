@@ -61,18 +61,14 @@ export function moveContinuously(element, directionY = 1, directionX = 0, should
             element.style.left = `${positionX}%`;
             element.style.top = `${positionY}%`;
             if(shouldScale && UTILS.getRandomTrue(0.3)) element.style.scale = `${scale - 0.01}`;
-            // if(shouldScale) element.style.scale = `${positionX}%`;
         }
         if(positionX < -10 || positionX > 110 || positionY < -10 || positionY > 110 || scale <= 0.01){
             clearInterval(interval);
             element.remove();
-            if(UTILS.getRandomTrue(0.5)){
+            if(UTILS.getRandomTrue(0.5))
                 startX = directionX > 0 ? 0 : 100;
-            }
-            else{
+            else
                 startY = directionY > 0 ? 0 : 100;
-            }
-            console.log('creating new bubble with startX:', startX, 'startY:', startY);
             createNewBubble(startX, startY);
         }
     }, 50);

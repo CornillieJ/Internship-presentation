@@ -6,6 +6,7 @@ import * as CONNECTIONS from './helpers/connections.js';
 import * as ACTIVE from './helpers/active-bubble.js';
 import * as CARDS from './helpers/cards.js';
 import * as ONBOARDING from './helpers/onboarding.js';
+import * as WEAPONS from './helpers/weapons.js';
 
 window.addEventListener('DOMContentLoaded', initialize);
 
@@ -18,4 +19,5 @@ function initialize(){
     ACTIVE.initialize();
     CARDS.initialize();
     ONBOARDING.initialize();
+    WEAPONS.initialize();
 }

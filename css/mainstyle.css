@@ -32,6 +32,9 @@ html, body{
     height: 100%;
     overflow: hidden;
 }
+.equipped{
+    cursor: none !important;
+}
 div{
     max-width: 100vw;
     max-height: 100vh;
@@ -111,7 +114,7 @@ span{
         text-shadow: 1px 1px 2px black;
         position: relative;
     }
-    .hud-weapon .ammo::before{
+    .hud-weapon .has-ammo::before{
         content: '';
         display: flex;
         position: absolute;
@@ -122,6 +125,71 @@ span{
         width: 15px;
         height: 15px;
         transform: rotate(-45deg) translateY(-80%);
+    }
+.active-weapon{
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+.crosshair{
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-size: cover;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    pointer-events: none !important;
+    opacity: 0;
+}
+    .tracking{
+        opacity: 1;
+    }
+    .crosshair:not(.reloading):after{
+        content: '+';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        font-size: 1.5rem;
+        color: white;
+        width: fit-content;
+        height: fit-content;
+        text-shadow: 1px 1px 2px white;
+        cursor: none !important;
+    }
+    .reloading{
+        opacity: 1.0 !important;
+        border-color: darkred;
+        width:3rem;
+        height:3rem;
+        pointer-events: auto !important;
+        cursor: wait !important;
+    }
+    .shot{
+        border-color: black;
+        animation: shot-effect 0.5s ease-out;
+        pointer-events: none !important;
+    }
+    .shot:before{
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .shot:after{
+        content: '+';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        font-size: 3rem;
+        color: black;
+        width: fit-content;
+        height: fit-content;
+        text-shadow: 1px 1px 2px white;
     }
 
 .hud-top {
@@ -256,7 +324,7 @@ span{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) !important;
-    cursor: default !important;
+    cursor: default;
     box-shadow: 0 0 2px white;
     /* border: 2px solid white; */
 }

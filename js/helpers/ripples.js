@@ -1,11 +1,11 @@
 import * as BACKGROUND from './background-bubbles.js';
 
 const rippleSettings = {
-  maxSize: 300,
-  maxSizeInPercentage: 0.3,
-  animationSpeed: 0.8,
+  maxSize: 100,
+  maxSizeInPercentage: 0.15,
+  animationSpeed: 1.0,
   strokeColor: [250,250,250],
-  startOpacity: 0.6,
+  startOpacity: 0.8,
   maxOpacityForMouseAvoidance: 0.4,
 };
 
@@ -97,6 +97,7 @@ export function initialize() {
 const canvasMouseOver = (e) => {
   const x = e.clientX * canvasSettings.ratio;
   const y = e.clientY * canvasSettings.ratio;
+  if(frameCount % 2 === 0) return;
   ripples.unshift(new Ripple(x, y, 1, ctx));
 };
 
