@@ -20,8 +20,8 @@ function createNewBubble(x,y, size, rotation){
     const centerBubble = document.querySelector('.center-bubble');
     const bubble = document.createElement('div');
     const borderColor = UTILS.getRandomColor(color1, color2);
-    if(!y) y = UTILS.getRandomNumberExcludeRange(0, 100, 45, 55);
-    if(!x) x = UTILS.getRandomNumberExcludeRange(0, 100, 0,0);
+    if(!y && y !== 0) y = UTILS.getRandomNumber(0, 100);
+    if(!x && x !== 0) x = UTILS.getRandomNumber(0, 100);
     if(!size) size = UTILS.getRandomNumberAroundCenter(1.5, 0.8);
     if(!rotation) rotation = UTILS.getRandomNumber(0, 360);
     if(UTILS.getRandomTrue(0.33)) bubble.classList.add('leaf-1');
@@ -43,8 +43,9 @@ export function moveContinuously(element, directionY = 1, directionX = 0, should
     let positionY = parseFloat(element.style.top);
     let positionX = parseFloat(element.style.left);
     let scale = parseFloat(element.style.scale) || 1;
-    const startY = directionY > 0 ? UTILS.getRandomNumber(-5, 60) : (directionY < 0 ? UTILS.getRandomNumber(40, 105) : 100);
-    const startX = directionX > 0 ? UTILS.getRandomNumber(-5, 60) : (directionX < 0 ? UTILS.getRandomNumber(40, 105) : 100);
+    let startY = directionY > 0 ? UTILS.getRandomNumber(-5, 60) : (directionY < 0 ? UTILS.getRandomNumber(40, 105) : 100);
+    let startX = directionX > 0 ? UTILS.getRandomNumber(-5, 60) : (directionX < 0 ? UTILS.getRandomNumber(40, 105) : 100);
+
     const speed = UTILS.getRandomNumberAroundCenter(0.5, 0.3);
     const interval = setInterval(() => {
         const bubbleInfo = pausedBubbles.find(b => b.element === element);
@@ -59,11 +60,19 @@ export function moveContinuously(element, directionY = 1, directionX = 0, should
             positionY += speed * directionY * yAmount;
             element.style.left = `${positionX}%`;
             element.style.top = `${positionY}%`;
-            if(shouldScale) element.style.scale = `${scale - 0.01}`;
+            if(shouldScale && UTILS.getRandomTrue(0.3)) element.style.scale = `${scale - 0.01}`;
+            // if(shouldScale) element.style.scale = `${positionX}%`;
         }
-        if(positionX < -10 || positionX > 110 || positionY < -10 || positionY > 110){
+        if(positionX < -10 || positionX > 110 || positionY < -10 || positionY > 110 || scale <= 0.01){
             clearInterval(interval);
             element.remove();
+            if(UTILS.getRandomTrue(0.5)){
+                startX = directionX > 0 ? 0 : 100;
+            }
+            else{
+                startY = directionY > 0 ? 0 : 100;
+            }
+            console.log('creating new bubble with startX:', startX, 'startY:', startY);
             createNewBubble(startX, startY);
         }
     }, 50);
