@@ -37,8 +37,10 @@ class Weapon {
             this.reload();
         }
         crosshair.classList.add('shot');
+        crosshair.style.animation = `shot-effect ${this.shootTime / 1000}s ease-out`;
         setTimeout(() => {
             crosshair.classList.remove('shot');
+            crosshair.style.animation = '';
             this.isShooting = false;
         }, this.shootTime);
         return true;
@@ -99,7 +101,7 @@ export function initialize(){
 
     foundWeapons.forEach((element, index) => {
         const weapon = new Weapon(element);
-        if(index === 2) weapon.shootTime = 100;
+        if(index === 2) weapon.shootTime = 200;
         weapons.push(weapon);
     });
     crosshair = document.createElement('div');
