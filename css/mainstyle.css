@@ -88,7 +88,7 @@ span{
     position: fixed;
     bottom: 2rem;
     left: 2rem;
-    z-index: 10;
+    z-index: 3;
     background: rgba(0, 0, 0, 0.6);
     padding: 1rem 1.5rem;
     border-radius: 4px;
@@ -103,7 +103,7 @@ span{
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    z-index: 10;
+    z-index: 3;
     background: rgba(0, 0, 0, 0.6);
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -335,7 +335,7 @@ span{
 }
 .active-bubble, .card-visual{
     display: flex;
-    width: 50vw;
+    width: 55vw;
     height: 75vh;
     position: absolute;
     animation: none;
@@ -344,7 +344,7 @@ span{
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%) !important;
     background: var(--active-bubble-color) !important;
     align-items: stretch !important;
-    justify-content: flex-start !important;
+    justify-content: flex-start !importa55;
     z-index: 999 !important;
     opacity: 1;
     left: 50%;
@@ -401,10 +401,10 @@ span{
     }
     .active-bubble .split-pane, .card .split-pane{
         display: grid;
-        grid-template-columns: 1fr 1.5fr;
+        grid-template-columns: 1fr 1.3fr;
         width: 100%;
         height: 100%;
-        opacity: 1;
+        opacity: 13
     }
     .pane-left {
         background-color: rgba(255, 255, 255, 0.05); /* Placeholder */
@@ -433,7 +433,7 @@ span{
 
     }
     .pane-right li {
-        margin-bottom: 1.2rem;
+        margin-bottom: 0.8rem;
         font-size: 1.2rem;
         line-height: 1.4;
         position: relative;
