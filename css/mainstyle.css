@@ -737,8 +737,8 @@ span{
     }
     .active-bubble, .card-visual{
         width: 90vw !important;
-        height: 80vh !important;
-        pointer-events: none !important;
+        height: 70vh !important;
+        /* pointer-events: none !important; */
         /* backdrop-filter: blur(5px); */
         /* -webkit-backdrop-filter: blur(5px); */
     }
@@ -763,7 +763,7 @@ span{
         display: block;
         position: absolute;
         right: 0.5rem;
-        bottom: 3rem;
+        bottom: 0.5rem;
         width: 15rem;
         height: 3rem;
         display: flex;
@@ -774,8 +774,8 @@ span{
         -webkit-backdrop-filter: blur(5px);
     }
     .card-indicator{
-        top:unset !important;
-        bottom:0 !important;
+        /* top:unset !important; */
+        /* bottom:0 !important; */
         z-index: 9999 !important;
     }
     .split-pane{
@@ -802,7 +802,6 @@ span{
     }
     .active-bubble, .card-visual{
         width: 70vw !important;
-        pointer-events: none !important;
         overflow: auto !important;
     }
     .card, .pane-right{
