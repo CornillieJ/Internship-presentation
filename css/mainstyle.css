@@ -344,7 +344,7 @@ span{
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%) !important;
     background: var(--active-bubble-color) !important;
     align-items: stretch !important;
-    justify-content: flex-start !importa55;
+    justify-content: flex-start !important;
     z-index: 999 !important;
     opacity: 1;
     left: 50%;
