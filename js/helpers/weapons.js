@@ -109,8 +109,8 @@ export function initialize(){
     document.body.appendChild(crosshair);
     crosshair.addEventListener('click', shootActiveWeapon);
     window.addEventListener('wheel', activateWeaponOnScroll);
-    window.addEventListener('mousedown', shootActiveWeapon);
-    window.addEventListener('mousemove', showCrosshair);
+    window.addEventListener('pointerdown', shootActiveWeapon);
+    window.addEventListener('pointermove', showCrosshair);
 }
 
 function showCrosshair(e){
@@ -129,6 +129,7 @@ function shootActiveWeapon(e){
     const activeWeapon = getActiveWeapon();
     if(!activeWeapon) return;
     const shot = activeWeapon.shoot();
+    showCrosshair(e);
 }
 function activateWeaponOnScroll(e){
     if(UTILS.isDescendentOfClass(e.target, 'card-visual')) return;

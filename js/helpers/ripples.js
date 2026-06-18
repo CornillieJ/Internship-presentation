@@ -3,7 +3,7 @@ import * as BACKGROUND from './background-bubbles.js';
 const rippleSettings = {
   maxSize: 100,
   maxSizeInPercentage: 0.15,
-  animationSpeed: 1.0,
+  animationSpeed: 2.0,
   strokeColor: [250,250,250],
   startOpacity: 0.8,
   maxOpacityForMouseAvoidance: 0.4,
@@ -42,7 +42,7 @@ Ripple.prototype = {
       ${Math.floor(rippleSettings.strokeColor[1])},
       ${Math.floor(rippleSettings.strokeColor[2])},
       ${this.opacity})`;
-    if(this.opacity >= rippleSettings.maxOpacityForMouseAvoidance && frameCount % 2 === 0){
+    if(this.opacity >= rippleSettings.maxOpacityForMouseAvoidance){
       BACKGROUND.avoidPosition(this.position.x, this.position.y, this.circleSize);
     }
   },
@@ -82,7 +82,7 @@ export function initialize() {
   canvas.style.height = `${height}px`;
 
   animation();
-  window.addEventListener('mousemove', canvasMouseOver);
+  window.addEventListener('pointermove', canvasMouseOver);
   window.addEventListener('resize', ()=>{
       const height = window.innerHeight;
       const width = window.innerWidth;
@@ -97,7 +97,7 @@ export function initialize() {
 const canvasMouseOver = (e) => {
   const x = e.clientX * canvasSettings.ratio;
   const y = e.clientY * canvasSettings.ratio;
-  if(frameCount % 2 === 0) return;
+  if(frameCount % 4 === 0) return;
   ripples.unshift(new Ripple(x, y, 1, ctx));
 };
 
